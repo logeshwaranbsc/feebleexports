@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    initNavbar();
     initHeroSlider();
     initQuoteModal();
     initProductFilters();
@@ -480,3 +481,50 @@ function initPresentationTabs() {
   function boot() { document.querySelectorAll('[data-fx-map]').forEach(init); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();
+
+// Floating Navbar Scroll & Mobile Menu Handler
+function initNavbar() {
+    const headerWrapper = document.querySelector('.header-wrapper');
+    const mobileToggle = document.getElementById('mobileNavToggle');
+    const navCapsule = document.getElementById('navCapsule');
+    const navLinks = document.querySelectorAll('.nav-link');
+
+    // Scroll state handler
+    function handleScroll() {
+        if (!headerWrapper) return;
+        if (window.scrollY > 20) {
+            headerWrapper.classList.add('scrolled');
+        } else {
+            headerWrapper.classList.remove('scrolled');
+        }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    // Mobile Toggle handler
+    if (mobileToggle && navCapsule) {
+        mobileToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isActive = mobileToggle.classList.toggle('is-active');
+            navCapsule.classList.toggle('open', isActive);
+        });
+
+        // Close mobile nav on outside click
+        document.addEventListener('click', (e) => {
+            if (!navCapsule.contains(e.target) && !mobileToggle.contains(e.target)) {
+                mobileToggle.classList.remove('is-active');
+                navCapsule.classList.remove('open');
+            }
+        });
+
+        // Close mobile nav when clicking link
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileToggle.classList.remove('is-active');
+                navCapsule.classList.remove('open');
+            });
+        });
+    }
+}
+

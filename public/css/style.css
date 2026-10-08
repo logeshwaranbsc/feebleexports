@@ -129,32 +129,79 @@ svg {
   color: #fff;
 }
 
-/* Main Navbar - Floating Black Capsule Theme */
-.navbar {
+/* Header & Floating Glassmorphic Navbar Redesign */
+.header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 12px 24px;
+  pointer-events: none;
+}
+
+.floating-navbar {
+  max-width: 1320px;
+  margin: 0 auto;
+  pointer-events: auto;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar-glass-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 48px;
-  background: var(--color-cream, #FDFBF7);
-  position: relative;
-  z-index: 1000;
-  border-bottom: 1px solid rgba(130, 117, 104, 0.15);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+  padding: 10px 24px;
+  background: rgba(253, 251, 247, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: var(--radius-full, 9999px);
+  box-shadow: 
+    0 12px 32px -8px rgba(25, 20, 16, 0.08),
+    0 2px 6px rgba(0, 0, 0, 0.02),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
 }
 
+.header-wrapper.scrolled .navbar-glass-card {
+  background: rgba(253, 251, 247, 0.95);
+  box-shadow: 
+    0 16px 40px -10px rgba(25, 20, 16, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+/* Brand Logo Styling */
 .brand-logo {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   text-decoration: none;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.brand-logo:hover {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  border: 1px solid rgba(194, 101, 60, 0.15);
+  box-shadow: 0 4px 12px rgba(25, 20, 16, 0.05);
+  overflow: hidden;
+  padding: 4px;
 }
 
 .logo-img {
-  width: auto;
-  height: 72px;
-  max-height: 78px;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.12));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
 }
 
 .brand-text {
@@ -164,33 +211,41 @@ svg {
 
 .brand-name {
   font-family: var(--font-serif);
-  font-size: 1.45rem;
-  font-weight: 700;
-  letter-spacing: 1px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 1.2px;
   line-height: 1.1;
-  color: var(--color-text-dark, #2D2823);
+  color: var(--color-text-dark, #2b231d);
+  background: linear-gradient(135deg, #2b231d 0%, #4a3b30 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .brand-tagline {
   font-family: var(--font-serif);
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-style: italic;
-  color: var(--color-terracotta, #C2653C);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  color: var(--color-terracotta, #c2653c);
 }
 
-/* Nav Capsule - Black Floating Pill Container */
+/* Nav Capsule - Dark Obsidian Floating Pill */
 .nav-capsule {
-  background: #111511;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 50px;
-  padding: 6px 8px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.22);
+  background: linear-gradient(145deg, #191410 0%, #241c16 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full, 9999px);
+  padding: 5px 6px;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.22),
+    inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  transition: all 0.3s ease;
 }
 
 .nav-menu {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -198,53 +253,179 @@ svg {
 
 .nav-link {
   display: inline-block;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   font-weight: 600;
-  color: #FFFFFF;
+  color: #e2d8ce;
   text-decoration: none;
-  padding: 10px 22px;
-  border-radius: 50px;
+  padding: 9px 20px;
+  border-radius: var(--radius-full, 9999px);
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   white-space: nowrap;
+  position: relative;
 }
 
 .nav-link:hover {
-  color: #F59E0B;
-  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
 }
 
 .nav-link.active {
-  background: #F59E0B;
-  color: #0F130F;
-  font-weight: 700;
-  box-shadow: 0 0 16px rgba(245, 158, 11, 0.5);
-}
-
-.nav-link.active::after {
-  display: none;
-}
-
-.btn-quote {
-  background: #C2653C;
+  background: linear-gradient(135deg, #c2653c 0%, #d4764b 100%);
   color: #ffffff;
-  padding: 10px 22px;
-  border-radius: 50px;
-  font-weight: 600;
-  font-size: 0.9rem;
+  font-weight: 700;
+  box-shadow: 
+    0 4px 14px rgba(194, 101, 60, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3);
+}
+
+.nav-cta-item {
+  margin-left: 4px;
+}
+
+/* Animated Quote CTA Button */
+.btn-quote {
+  position: relative;
+  background: linear-gradient(135deg, #d4a373 0%, #c2653c 100%);
+  color: #ffffff;
+  padding: 9px 22px;
+  border-radius: var(--radius-full, 9999px);
+  font-weight: 700;
+  font-size: 0.88rem;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.25s ease;
+  gap: 8px;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   border: none;
   cursor: pointer;
-  margin-left: 4px;
-  box-shadow: 0 2px 10px rgba(194, 101, 60, 0.35);
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(194, 101, 60, 0.35);
+}
+
+.btn-quote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.btn-quote:hover::before {
+  left: 100%;
 }
 
 .btn-quote:hover {
-  background: #D97745;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(194, 101, 60, 0.5);
+  background: linear-gradient(135deg, #e0ad7b 0%, #d4764b 100%);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 22px rgba(194, 101, 60, 0.5);
+}
+
+.cta-arrow {
+  transition: transform 0.25s ease;
+}
+
+.btn-quote:hover .cta-arrow {
+  transform: translateX(4px);
+}
+
+/* Mobile Toggle Hamburger */
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 42px;
+  height: 42px;
+  padding: 10px;
+  background: #191410;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+}
+
+.mobile-toggle:hover {
+  background: #2e241d;
+  transform: scale(1.05);
+}
+
+.hamburger-bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.mobile-toggle.is-active .bar-1 {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.mobile-toggle.is-active .bar-2 {
+  opacity: 0;
+}
+
+.mobile-toggle.is-active .bar-3 {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Responsive Navbar Styles */
+@media (max-width: 992px) {
+  .header-wrapper {
+    padding: 10px 16px;
+  }
+
+  .mobile-toggle {
+    display: flex;
+  }
+
+  .nav-capsule {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 16px;
+    right: 16px;
+    background: #191410;
+    border-radius: 24px;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px) scale(0.98);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+  }
+
+  .nav-capsule.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .nav-link {
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+
+  .nav-cta-item {
+    margin-left: 0;
+    margin-top: 8px;
+  }
+
+  .btn-quote {
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+  }
 }
 
 /* Section Tag Headings */
