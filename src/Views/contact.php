@@ -95,6 +95,3 @@
   </div>
 </section>
 
-<!-- Contact Page Global Markets Section -->
-<?php require BASE_PATH . '/src/Views/partials/global-markets.php'; ?>
-

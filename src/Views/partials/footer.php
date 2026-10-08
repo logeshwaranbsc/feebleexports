@@ -1,22 +1,5 @@
 <!-- Main Global Footer -->
 <footer class="site-footer">
-  <!-- Top Footer Brand Bar / CTA Banner -->
-  <div class="footer-cta-banner">
-    <div class="footer-container">
-      <div class="footer-cta-content">
-        <div class="footer-cta-text">
-          <span class="footer-eyebrow">NATURAL &bull; DURABLE &bull; SUSTAINABLE</span>
-          <h3 class="footer-cta-heading">Ready to Experience Premium Coir Solutions?</h3>
-          <p class="footer-cta-subtext">Partner with FEEBLE EXPORTS for high-quality, eco-friendly coir mats and sustainable coconut fibre products crafted in India for global markets.</p>
-        </div>
-        <div class="footer-cta-actions">
-          <button class="btn-primary btn-quote">Request a Free Quote &rarr;</button>
-          <a href="/contact" class="btn-outline-light">Contact Our Export Team</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Main Footer Body -->
   <div class="footer-main">
     <div class="footer-container">
