@@ -33,7 +33,17 @@
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
             <div class="form-group">
                 <label for="image">Image Asset Path / URL</label>
-                <input type="text" id="image" name="image" class="form-control" value="<?= htmlspecialchars($product['image'] ?? '/assets/images/01_plain_handloom.png') ?>">
+                <div style="display: flex; gap: 0.5rem; align-items: center;">
+                    <input type="text" id="image" name="image" class="form-control" value="<?= htmlspecialchars($product['image'] ?? '/assets/images/01_plain_handloom.png') ?>">
+                    <label class="btn-secondary" style="margin: 0; cursor: pointer; white-space: nowrap; font-size: 0.85rem; padding: 0.5rem 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Upload image directly to Supabase S3">
+                        <span>☁️ Upload S3</span>
+                        <input type="file" accept="image/*" class="admin-s3-upload-input" data-target="#image" data-preview="#image-preview" style="display: none;">
+                    </label>
+                </div>
+                <div class="upload-status-msg" style="display: none; font-size: 0.8rem; margin-top: 0.35rem; color: var(--admin-primary);"></div>
+                <div class="image-preview-wrapper" style="margin-top: 0.5rem;">
+                    <img id="image-preview" src="<?= htmlspecialchars($product['image'] ?? '/assets/images/01_plain_handloom.png') ?>" alt="Preview" style="max-height: 80px; border-radius: 6px; border: 1px solid var(--admin-border); object-fit: cover; display: block;" onerror="this.style.display='none'" onload="this.style.display='block'">
+                </div>
             </div>
 
             <div class="form-group">

@@ -147,3 +147,18 @@ VALUES
 ('contact', 'Contact Us & Get a Quote - FEEBLE EXPORTS', 'Reach out to FEEBLE EXPORTS in Namakkal, Tamil Nadu for export inquiries, custom size orders, and wholesale quotes.', 'contact FEEBLE EXPORTS, coir quote request, coir exporter contact Namakkal', 'Contact FEEBLE EXPORTS', 'Get in touch with our export team for coir products quotes and inquiries.', '/assets/images/05_pvc_backed.png'),
 ('blogs', 'Blog & Export Insights - FEEBLE EXPORTS', 'Industry insights, eco-friendly matting trends, and coir manufacturing updates from FEEBLE EXPORTS.', 'coir blog, coir export trends, coconut fibre insights', 'FEEBLE EXPORTS Blog & News', 'Stay updated with eco-friendly product trends and export news.', '/assets/images/01_plain_handloom.png')
 ON CONFLICT (page_key) DO NOTHING;
+
+
+-- 7. UPLOADS TABLE
+CREATE TABLE IF NOT EXISTS uploads (
+    id VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    url TEXT NOT NULL,
+    filename VARCHAR(255) NOT NULL,
+    path VARCHAR(255),
+    size BIGINT DEFAULT 0,
+    mime_type VARCHAR(100),
+    storage VARCHAR(50) DEFAULT 'Supabase S3',
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+

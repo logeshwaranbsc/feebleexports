@@ -45,6 +45,11 @@
                 <span>Products</span>
             </a>
 
+            <a href="/admin/uploads" class="admin-nav-item <?= ($currentPage ?? '') === 'uploads' ? 'active' : '' ?>">
+                <span class="nav-icon">☁️</span>
+                <span>Media & Uploads</span>
+            </a>
+
             <span class="nav-section-title">Settings</span>
 
             <a href="/admin/seo" class="admin-nav-item <?= ($currentPage ?? '') === 'seo' ? 'active' : '' ?>">

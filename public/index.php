@@ -38,6 +38,7 @@ use App\Controllers\Admin\BlogController;
 use App\Controllers\Admin\ProductController;
 use App\Controllers\Admin\SeoController;
 use App\Controllers\Admin\ProfileController;
+use App\Controllers\Admin\UploadController;
 
 $router = new Router();
 
@@ -93,6 +94,12 @@ $router->post('/admin/seo', [SeoController::class, 'update']);
 // Admin Profile Route
 $router->get('/admin/profile', [ProfileController::class, 'index']);
 $router->post('/admin/profile', [ProfileController::class, 'update']);
+
+// Admin Media & Supabase S3 Upload Routes
+$router->get('/admin/uploads', [UploadController::class, 'index']);
+$router->post('/admin/uploads', [UploadController::class, 'upload']);
+$router->post('/admin/uploads/delete', [UploadController::class, 'delete']);
+$router->post('/admin/api/upload', [UploadController::class, 'apiUpload']);
 
 // Dispatch Request
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

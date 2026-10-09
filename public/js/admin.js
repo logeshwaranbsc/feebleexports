@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAutoDismissAlerts();
     initDeleteConfirmations();
     initSlugGenerator();
+    initS3UploadInputs();
 });
 
 // Mobile Sidebar Toggle
@@ -71,3 +72,66 @@ function initSlugGenerator() {
         });
     }
 }
+
+// Inline Form S3 Upload handler
+function initS3UploadInputs() {
+    document.querySelectorAll('.admin-s3-upload-input').forEach(input => {
+        input.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const targetSelector = input.getAttribute('data-target');
+            const previewSelector = input.getAttribute('data-preview');
+            const targetInput = document.querySelector(targetSelector);
+            const previewImg = previewSelector ? document.querySelector(previewSelector) : null;
+            const container = input.closest('.form-group') || input.parentElement;
+            const statusMsg = container.querySelector('.upload-status-msg');
+
+            if (statusMsg) {
+                statusMsg.style.display = 'block';
+                statusMsg.style.color = 'var(--admin-primary)';
+                statusMsg.innerText = '⏳ Uploading file to Supabase S3...';
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const response = await fetch('/admin/api/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    if (targetInput) {
+                        targetInput.value = result.url;
+                        targetInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                    if (previewImg) {
+                        previewImg.src = result.url;
+                        previewImg.style.display = 'block';
+                    }
+                    if (statusMsg) {
+                        statusMsg.style.color = 'var(--admin-primary)';
+                        statusMsg.innerText = '✓ Uploaded to ' + (result.storage || 'Supabase S3') + '!';
+                        setTimeout(() => { statusMsg.style.display = 'none'; }, 4000);
+                    }
+                } else {
+                    if (statusMsg) {
+                        statusMsg.style.color = 'var(--admin-danger)';
+                        statusMsg.innerText = '⚠️ ' + (result.error || 'Upload failed.');
+                    }
+                }
+            } catch (err) {
+                if (statusMsg) {
+                    statusMsg.style.color = 'var(--admin-danger)';
+                    statusMsg.innerText = '⚠️ Upload request failed: ' + err.message;
+                }
+            } finally {
+                input.value = '';
+            }
+        });
+    });
+}
+
