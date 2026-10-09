@@ -2,9 +2,24 @@
 
 declare(strict_types=1);
 
-// Define base paths
-define('BASE_PATH', dirname(__DIR__));
-define('PUBLIC_PATH', __DIR__);
+// Define base paths for application
+if (!defined('BASE_PATH')) {
+    $appDir = getenv('APP_PATH') ?: ($_ENV['APP_PATH'] ?? null);
+    if (!$appDir) {
+        $candidate = dirname(__DIR__) . '/app';
+        if (is_dir($candidate)) {
+            $appDir = $candidate;
+        } else {
+            $appDir = dirname(__DIR__);
+        }
+    }
+    define('BASE_PATH', rtrim($appDir, '/\\'));
+}
+
+if (!defined('PUBLIC_PATH')) {
+    define('PUBLIC_PATH', __DIR__);
+}
+
 
 // Simple Autoloader
 spl_autoload_register(function ($class) {

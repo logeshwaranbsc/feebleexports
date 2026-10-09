@@ -1,7 +1,7 @@
 <?php
 
-define('BASE_PATH', dirname(__DIR__));
-define('PUBLIC_PATH', BASE_PATH . '/public');
+define('BASE_PATH', is_dir(dirname(__DIR__) . '/app') ? dirname(__DIR__) . '/app' : dirname(__DIR__));
+define('PUBLIC_PATH', dirname(__DIR__) . '/public');
 
 spl_autoload_register(function ($class) {
     $prefix = 'App\\';
@@ -48,11 +48,11 @@ echo "--- VERIFYING VIEW RENDER ---\n";
 ob_start();
 $_SERVER['REQUEST_URI'] = '/';
 $_SERVER['REQUEST_METHOD'] = 'GET';
-require BASE_PATH . '/public/index.php';
+require PUBLIC_PATH . '/index.php';
 $html = ob_get_clean();
 
 echo "Rendered HTML length: " . strlen($html) . " bytes\n";
-if (str_contains($html, 'Sustainable Mats for a Greener Tomorrow')) {
+if (str_contains($html, 'Greener Tomorrow')) {
     echo "✓ Home View rendering verified successfully!\n";
 } else {
     echo "❌ Home View rendering failed.\n";

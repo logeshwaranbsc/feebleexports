@@ -2,6 +2,7 @@
 .env
 .env.local
 .env.*.local
+app/.env
 
 # Storage & Temporary Files
 storage/
@@ -12,3 +13,4 @@ scratch/
 Thumbs.db
 .vscode/
 .idea/
+

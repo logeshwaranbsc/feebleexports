@@ -1,0 +1,25 @@
+# Apache Web Server Configuration for Hostinger Shared Hosting
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Prevent direct access to hidden files (e.g., .env, .git, .user.ini)
+    RewriteRule "(^|/)\." - [F]
+
+    # Serve existing static files and directories directly
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # Route all other requests through the front controller
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Disable Directory Browsing
+Options -Indexes
+
+# Security Headers (Recommended)
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>

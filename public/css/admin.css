@@ -559,7 +559,7 @@ textarea.form-control {
   margin-top: 0.3rem;
 }
 
-/* Responsive Sidebar Toggle */
+/* Responsive Sidebar Toggle & Mobile Media Queries */
 .mobile-sidebar-toggle {
   display: none;
   background: none;
@@ -572,14 +572,67 @@ textarea.form-control {
 @media (max-width: 992px) {
   .admin-sidebar {
     transform: translateX(-100%);
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.6);
   }
+
   .admin-sidebar.show {
     transform: translateX(0);
   }
+
   .admin-main {
     margin-left: 0;
   }
+
   .mobile-sidebar-toggle {
     display: block;
+  }
+
+  .admin-topbar {
+    padding: 0 1rem;
+  }
+
+  .admin-content {
+    padding: 1.25rem 1rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .topbar-actions {
+    gap: 0.5rem;
+  }
+
+  .btn-admin-logout,
+  .topbar-actions .btn-secondary {
+    padding: 0.4rem 0.65rem;
+    font-size: 0.78rem;
+  }
+
+  .admin-table th,
+  .admin-table td {
+    padding: 0.75rem 0.85rem;
+    font-size: 0.82rem;
+  }
+
+  .login-card {
+    padding: 1.75rem 1.25rem;
+  }
+
+  .panel-header {
+    padding: 1rem;
   }
 }
