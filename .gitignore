@@ -1,0 +1,14 @@
+# Environment Variable Credentials
+.env
+.env.local
+.env.*.local
+
+# Storage & Temporary Files
+storage/
+scratch/
+
+# OS / IDE Generated Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

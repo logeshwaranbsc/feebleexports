@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Core\Database;
+
 class Contact
 {
     private static string $storagePath = BASE_PATH . '/storage/messages.json';
@@ -26,6 +28,26 @@ class Contact
             return ['success' => false, 'errors' => $errors];
         }
 
+        $msgId = 'MSG-' . uniqid();
+        $name = htmlspecialchars(trim($data['name']));
+        $email = htmlspecialchars(trim($data['email']));
+        $phone = htmlspecialchars(trim($data['phone'] ?? ''));
+        $country = htmlspecialchars(trim($data['country'] ?? ''));
+        $message = htmlspecialchars(trim($data['message']));
+
+        if (Database::isConnected()) {
+            $sql = "INSERT INTO contact_messages (id, name, email, phone, country, message, status) VALUES (:id, :name, :email, :phone, :country, :message, 'new')";
+            Database::execute($sql, [
+                'id' => $msgId,
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'country' => $country,
+                'message' => $message
+            ]);
+        }
+
+        // Always sync with local file storage as fallback/cache
         $dir = dirname(self::$storagePath);
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
@@ -36,12 +58,13 @@ class Contact
             : [];
 
         $record = [
-            'id' => 'MSG-' . uniqid(),
-            'name' => htmlspecialchars(trim($data['name'])),
-            'email' => htmlspecialchars(trim($data['email'])),
-            'phone' => htmlspecialchars(trim($data['phone'] ?? '')),
-            'country' => htmlspecialchars(trim($data['country'] ?? '')),
-            'message' => htmlspecialchars(trim($data['message'])),
+            'id' => $msgId,
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'country' => $country,
+            'message' => $message,
+            'status' => 'new',
             'created_at' => date('Y-m-d H:i:s')
         ];
 

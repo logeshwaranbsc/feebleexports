@@ -23,16 +23,45 @@
       
       <!-- Products Grid -->
       <div class="products-grid">
-        <?php foreach ($products as $product): ?>
-          <div class="product-card" data-category="<?= htmlspecialchars($product['category_slug']) ?>">
-            <div class="product-thumb">
-              <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+        <?php if (!empty($products)): ?>
+          <?php foreach ($products as $product): ?>
+            <?php 
+              $hasPrice = !empty($product['price']) && (float)$product['price'] > 0;
+              $hasOffer = !empty($product['offer_price']) && (float)$product['offer_price'] > 0;
+              $isOfferValid = $hasOffer && $hasPrice && (float)$product['offer_price'] < (float)$product['price'];
+            ?>
+            <div class="product-card" data-category="<?= htmlspecialchars($product['category_slug']) ?>">
+              <?php if ($isOfferValid): ?>
+                <div class="product-offer-badge">
+                  Offer
+                </div>
+              <?php endif; ?>
+              <div class="product-thumb">
+                <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+              </div>
+              <div class="product-info">
+                <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
+                
+                <div class="product-pricing">
+                  <?php if ($isOfferValid): ?>
+                    <span class="old-price">₹<?= number_format((float)$product['price'], 0) ?></span>
+                    <span class="offer-price">₹<?= number_format((float)$product['offer_price'], 0) ?></span>
+                  <?php elseif ($hasOffer): ?>
+                    <span class="offer-price">₹<?= number_format((float)$product['offer_price'], 0) ?></span>
+                  <?php elseif ($hasPrice): ?>
+                    <span class="current-price">₹<?= number_format((float)$product['price'], 0) ?></span>
+                  <?php else: ?>
+                    <span class="contact-price">Quote on Request</span>
+                  <?php endif; ?>
+                </div>
+              </div>
             </div>
-            <div class="product-info">
-              <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>
-            </div>
+          <?php endforeach; ?>
+        <?php else: ?>
+          <div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--color-text-muted);">
+            <p style="font-size: 1.1rem; font-weight: 500;">No products available at the moment.</p>
           </div>
-        <?php endforeach; ?>
+        <?php endif; ?>
       </div>
 
       <!-- Right Side Specification & Customization Boxes -->

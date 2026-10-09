@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Core\Database;
+
 class Quote
 {
     private static string $storagePath = BASE_PATH . '/storage/quotes.json';
@@ -26,6 +28,32 @@ class Quote
             return ['success' => false, 'errors' => $errors];
         }
 
+        $quoteId = 'Q-' . uniqid();
+        $name = htmlspecialchars(trim($data['name']));
+        $email = htmlspecialchars(trim($data['email']));
+        $phone = htmlspecialchars(trim($data['phone'] ?? ''));
+        $country = htmlspecialchars(trim($data['country'] ?? ''));
+        $product = htmlspecialchars(trim($data['product']));
+        $quantity = htmlspecialchars(trim($data['quantity'] ?? '100'));
+        $customSize = htmlspecialchars(trim($data['custom_size'] ?? ''));
+        $notes = htmlspecialchars(trim($data['notes'] ?? ''));
+
+        if (Database::isConnected()) {
+            $sql = "INSERT INTO quote_requests (id, name, email, phone, country, product, quantity, custom_size, notes, status) VALUES (:id, :name, :email, :phone, :country, :product, :quantity, :custom_size, :notes, 'new')";
+            Database::execute($sql, [
+                'id' => $quoteId,
+                'name' => $name,
+                'email' => $email,
+                'phone' => $phone,
+                'country' => $country,
+                'product' => $product,
+                'quantity' => $quantity,
+                'custom_size' => $customSize,
+                'notes' => $notes
+            ]);
+        }
+
+        // Always sync with local file storage as fallback/cache
         $dir = dirname(self::$storagePath);
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
@@ -36,15 +64,16 @@ class Quote
             : [];
 
         $record = [
-            'id' => 'Q-' . uniqid(),
-            'name' => htmlspecialchars(trim($data['name'])),
-            'email' => htmlspecialchars(trim($data['email'])),
-            'phone' => htmlspecialchars(trim($data['phone'] ?? '')),
-            'country' => htmlspecialchars(trim($data['country'] ?? '')),
-            'product' => htmlspecialchars(trim($data['product'])),
-            'quantity' => htmlspecialchars(trim($data['quantity'] ?? '100')),
-            'custom_size' => htmlspecialchars(trim($data['custom_size'] ?? '')),
-            'notes' => htmlspecialchars(trim($data['notes'] ?? '')),
+            'id' => $quoteId,
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone,
+            'country' => $country,
+            'product' => $product,
+            'quantity' => $quantity,
+            'custom_size' => $customSize,
+            'notes' => $notes,
+            'status' => 'new',
             'created_at' => date('Y-m-d H:i:s')
         ];
 

@@ -1,0 +1,81 @@
+<div class="page-header">
+    <div class="page-title-group">
+        <a href="/admin/blogs" style="color: var(--admin-primary); text-decoration: none; font-size: 0.85rem; font-weight: 600;">← Back to Blogs</a>
+        <h1 style="margin-top: 0.5rem;">Create Blog Post</h1>
+    </div>
+</div>
+
+<div class="card-panel" style="padding: 2rem; max-width: 900px;">
+    <form action="/admin/blogs/create" method="POST" class="admin-form">
+        <div class="form-group">
+            <label for="title">Blog Title *</label>
+            <input type="text" id="title" name="title" class="form-control" placeholder="e.g., Global Eco-Friendly Matting Trends 2026" value="<?= htmlspecialchars($old['title'] ?? '') ?>" required>
+            <?php if (!empty($errors['title'])): ?>
+                <span class="form-error"><?= htmlspecialchars($errors['title']) ?></span>
+            <?php endif; ?>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div class="form-group">
+                <label for="slug">URL Slug</label>
+                <input type="text" id="slug" name="slug" class="form-control" placeholder="auto-generated-from-title" value="<?= htmlspecialchars($old['slug'] ?? '') ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <input type="text" id="category" name="category" class="form-control" placeholder="e.g., Global Trade, Craft & Manufacturing" value="<?= htmlspecialchars($old['category'] ?? 'Coir Industry') ?>">
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
+            <div class="form-group">
+                <label for="author">Author Name</label>
+                <input type="text" id="author" name="author" class="form-control" value="<?= htmlspecialchars($old['author'] ?? 'Kavimayil Venkatachalam') ?>">
+            </div>
+
+            <div class="form-group">
+                <label for="status">Publication Status</label>
+                <select id="status" name="status" class="form-control">
+                    <option value="published" <?= ($old['status'] ?? '') === 'published' ? 'selected' : '' ?>>🟢 Published</option>
+                    <option value="draft" <?= ($old['status'] ?? '') === 'draft' ? 'selected' : '' ?>>⚪ Draft</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Featured Image Path / URL</label>
+            <input type="text" id="image" name="image" class="form-control" placeholder="/assets/images/01_plain_handloom.png" value="<?= htmlspecialchars($old['image'] ?? '/assets/images/01_plain_handloom.png') ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="excerpt">Short Excerpt / Summary</label>
+            <textarea id="excerpt" name="excerpt" class="form-control" style="min-height: 80px;" placeholder="Brief 1-2 sentence overview of the article..."><?= htmlspecialchars($old['excerpt'] ?? '') ?></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="content">Full Article Content *</label>
+            <textarea id="content" name="content" class="form-control" style="min-height: 220px;" placeholder="Write your full article content here..." required><?= htmlspecialchars($old['content'] ?? '') ?></textarea>
+            <?php if (!empty($errors['content'])): ?>
+                <span class="form-error"><?= htmlspecialchars($errors['content']) ?></span>
+            <?php endif; ?>
+        </div>
+
+        <hr style="border-color: var(--admin-border); margin: 1rem 0;">
+        <h3 style="font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--admin-primary);">Search Engine Optimization (SEO)</h3>
+
+        <div class="form-group">
+            <label for="meta_title">Meta Title</label>
+            <input type="text" id="meta_title" name="meta_title" class="form-control" placeholder="Leave empty to use Blog Title" value="<?= htmlspecialchars($old['meta_title'] ?? '') ?>">
+        </div>
+
+        <div class="form-group">
+            <label for="meta_description">Meta Description</label>
+            <textarea id="meta_description" name="meta_description" class="form-control" style="min-height: 70px;" placeholder="Leave empty to use Excerpt"><?= htmlspecialchars($old['meta_description'] ?? '') ?></textarea>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+            <button type="submit" class="btn-primary">Publish Blog Post</button>
+            <a href="/admin/blogs" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>

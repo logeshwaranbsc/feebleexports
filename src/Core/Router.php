@@ -27,12 +27,33 @@ class Router
         $path = $this->normalizePath($uri);
         $method = strtoupper($method);
 
+        // 1. Direct exact match check
         if (isset($this->routes[$method][$path])) {
             $handler = $this->routes[$method][$path];
             $controller = new $handler[0]();
             $action = $handler[1];
             $controller->$action();
             return;
+        }
+
+        // 2. Dynamic parameterized route matching e.g. /admin/enquiries/{id}
+        if (isset($this->routes[$method])) {
+            foreach ($this->routes[$method] as $routePath => $handler) {
+                if (strpos($routePath, '{') === false) {
+                    continue;
+                }
+
+                $pattern = preg_replace('/\{[a-zA-Z0-9_]+\}/', '([^/]+)', $routePath);
+                $pattern = '#^' . $pattern . '$#';
+
+                if (preg_match($pattern, $path, $matches)) {
+                    array_shift($matches); // Remove full match
+                    $controller = new $handler[0]();
+                    $action = $handler[1];
+                    call_user_func_array([$controller, $action], $matches);
+                    return;
+                }
+            }
         }
 
         // 404 Fallback

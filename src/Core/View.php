@@ -4,14 +4,14 @@ namespace App\Core;
 
 class View
 {
-    public static function render(string $template, array $data = [], bool $useLayout = true): void
+    public static function render(string $template, array $data = [], bool $useLayout = true, string $layout = 'main'): void
     {
         extract($data);
         
         $viewFile = BASE_PATH . "/src/Views/{$template}.php";
         
         if (!file_exists($viewFile)) {
-            echo "View file standard not found: {$template}";
+            echo "View file not found: {$template}";
             return;
         }
 
@@ -20,7 +20,7 @@ class View
             require $viewFile;
             $content = ob_get_clean();
             
-            $layoutFile = BASE_PATH . "/src/Views/layouts/main.php";
+            $layoutFile = BASE_PATH . "/src/Views/layouts/{$layout}.php";
             if (file_exists($layoutFile)) {
                 require $layoutFile;
             } else {
