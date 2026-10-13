@@ -66,18 +66,22 @@ class Product
         $price = isset($data['price']) && $data['price'] !== '' ? (float)$data['price'] : null;
         $offerPrice = isset($data['offer_price']) && $data['offer_price'] !== '' ? (float)$data['offer_price'] : null;
 
+        // Resolve mapped Category
+        [$categoryName, $categorySlug, $categoryId] = self::resolveCategory($data);
+
         if (Database::isConnected()) {
             $existing = Database::fetch("SELECT id FROM products WHERE id = :id", ['id' => $id]);
             if ($existing) {
                 return ['success' => false, 'errors' => ['id' => 'Product ID/Slug already exists. Please choose a unique identifier.']];
             }
 
-            $sql = "INSERT INTO products (id, name, category, category_slug, image, description, price, offer_price, status) VALUES (:id, :name, :category, :category_slug, :image, :description, :price, :offer_price, :status)";
+            $sql = "INSERT INTO products (id, name, category, category_slug, category_id, image, description, price, offer_price, status) VALUES (:id, :name, :category, :category_slug, :category_id, :image, :description, :price, :offer_price, :status)";
             Database::execute($sql, [
                 'id' => $id,
                 'name' => htmlspecialchars(trim($data['name'])),
-                'category' => htmlspecialchars(trim($data['category'])),
-                'category_slug' => Blog::slugify($data['category']),
+                'category' => $categoryName,
+                'category_slug' => $categorySlug,
+                'category_id' => $categoryId,
                 'image' => htmlspecialchars(trim($data['image'] ?? '/assets/images/01_plain_handloom.png')),
                 'description' => htmlspecialchars(trim($data['description'] ?? '')),
                 'price' => $price,
@@ -98,8 +102,9 @@ class Product
         $newProduct = [
             'id' => $id,
             'name' => htmlspecialchars(trim($data['name'])),
-            'category' => htmlspecialchars(trim($data['category'])),
-            'category_slug' => Blog::slugify($data['category']),
+            'category' => $categoryName,
+            'category_slug' => $categorySlug,
+            'category_id' => $categoryId,
             'image' => htmlspecialchars(trim($data['image'] ?? '/assets/images/01_plain_handloom.png')),
             'description' => htmlspecialchars(trim($data['description'] ?? '')),
             'price' => $price,
@@ -124,13 +129,17 @@ class Product
         $price = isset($data['price']) && $data['price'] !== '' ? (float)$data['price'] : null;
         $offerPrice = isset($data['offer_price']) && $data['offer_price'] !== '' ? (float)$data['offer_price'] : null;
 
+        // Resolve mapped Category
+        [$categoryName, $categorySlug, $categoryId] = self::resolveCategory($data);
+
         if (Database::isConnected()) {
-            $sql = "UPDATE products SET name = :name, category = :category, category_slug = :category_slug, image = :image, description = :description, price = :price, offer_price = :offer_price, status = :status, updated_at = NOW() WHERE id = :id";
+            $sql = "UPDATE products SET name = :name, category = :category, category_slug = :category_slug, category_id = :category_id, image = :image, description = :description, price = :price, offer_price = :offer_price, status = :status, updated_at = NOW() WHERE id = :id";
             Database::execute($sql, [
                 'id' => $id,
                 'name' => htmlspecialchars(trim($data['name'])),
-                'category' => htmlspecialchars(trim($data['category'])),
-                'category_slug' => Blog::slugify($data['category']),
+                'category' => $categoryName,
+                'category_slug' => $categorySlug,
+                'category_id' => $categoryId,
                 'image' => htmlspecialchars(trim($data['image'] ?? '/assets/images/01_plain_handloom.png')),
                 'description' => htmlspecialchars(trim($data['description'] ?? '')),
                 'price' => $price,
@@ -147,8 +156,9 @@ class Product
         foreach ($products as &$product) {
             if ($product['id'] === $id) {
                 $product['name'] = htmlspecialchars(trim($data['name']));
-                $product['category'] = htmlspecialchars(trim($data['category']));
-                $product['category_slug'] = Blog::slugify($data['category']);
+                $product['category'] = $categoryName;
+                $product['category_slug'] = $categorySlug;
+                $product['category_id'] = $categoryId;
                 if (!empty($data['image'])) {
                     $product['image'] = htmlspecialchars(trim($data['image']));
                 }
@@ -172,6 +182,38 @@ class Product
         return ['success' => true, 'product' => $updatedProduct];
     }
 
+    private static function resolveCategory(array $data): array
+    {
+        $categorySlug = !empty($data['category_slug']) ? trim($data['category_slug']) : '';
+        $categoryName = !empty($data['category']) ? trim($data['category']) : '';
+        $categoryId = !empty($data['category_id']) ? trim($data['category_id']) : '';
+
+        if (!empty($categorySlug)) {
+            $cat = Category::getBySlug($categorySlug) ?? Category::getById($categorySlug);
+            if ($cat) {
+                return [$cat['name'], $cat['slug'], $cat['id']];
+            }
+        }
+
+        if (!empty($categoryId)) {
+            $cat = Category::getById($categoryId);
+            if ($cat) {
+                return [$cat['name'], $cat['slug'], $cat['id']];
+            }
+        }
+
+        if (!empty($categoryName)) {
+            foreach (Category::getAll() as $c) {
+                if (strcasecmp($c['name'], $categoryName) === 0 || strcasecmp($c['slug'], Blog::slugify($categoryName)) === 0) {
+                    return [$c['name'], $c['slug'], $c['id']];
+                }
+            }
+            return [$categoryName, Blog::slugify($categoryName), Blog::slugify($categoryName)];
+        }
+
+        return ['General', 'general', 'general'];
+    }
+
     public static function delete(string $id): bool
     {
         if (Database::isConnected()) {
@@ -187,10 +229,10 @@ class Product
     private static function validate(array $data): array
     {
         $errors = [];
-        if (empty($data['name'])) {
+        if (empty(trim($data['name'] ?? ''))) {
             $errors['name'] = 'Product Name is required.';
         }
-        if (empty($data['category'])) {
+        if (empty(trim($data['category'] ?? '')) && empty(trim($data['category_slug'] ?? '')) && empty(trim($data['category_id'] ?? ''))) {
             $errors['category'] = 'Product Category is required.';
         }
         return $errors;
@@ -198,16 +240,16 @@ class Product
 
     public static function getCategories(): array
     {
-        return [
-            ['slug' => 'all', 'name' => 'All'],
-            ['slug' => 'plain-handloom', 'name' => 'Plain & Handloom'],
-            ['slug' => 'tufted', 'name' => 'Tufted'],
-            ['slug' => 'creel-rod', 'name' => 'Creel & Rod'],
-            ['slug' => 'rope-braided', 'name' => 'Rope & Braided'],
-            ['slug' => 'backed-mats', 'name' => 'Backed Mats'],
-            ['slug' => 'printed-logo', 'name' => 'Printed & Logo'],
-            ['slug' => 'carpet-rolls', 'name' => 'Carpet & Rolls']
-        ];
+        $cats = Category::getAll();
+        $result = [['slug' => 'all', 'name' => 'All']];
+        foreach ($cats as $c) {
+            $result[] = [
+                'id' => $c['id'] ?? $c['slug'],
+                'slug' => $c['slug'],
+                'name' => $c['name']
+            ];
+        }
+        return $result;
     }
 
     public static function getStandardSizes(): array

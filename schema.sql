@@ -31,12 +31,38 @@ ON CONFLICT (username) DO UPDATE
 SET name = EXCLUDED.name, email = EXCLUDED.email;
 
 
--- 2. PRODUCTS TABLE
+-- 2. CATEGORIES TABLE
+CREATE TABLE IF NOT EXISTS categories (
+    id VARCHAR(100) PRIMARY KEY,
+    name VARCHAR(150) NOT NULL,
+    slug VARCHAR(100) UNIQUE NOT NULL,
+    description TEXT,
+    display_order INT DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Seed Categories Catalog
+INSERT INTO categories (id, name, slug, description, display_order)
+VALUES
+('plain-handloom', 'Plain & Handloom', 'plain-handloom', 'Classic hand-woven natural coir mat made from high quality 100% natural coconut fibers.', 1),
+('tufted', 'Tufted', 'tufted', 'Durable cut-pile tufted coir bristles designed for heavy scraping and soil absorption.', 2),
+('creel-rod', 'Creel & Rod', 'creel-rod', 'Heavy-duty steel or wood rod reinforced coir matting built for extreme foot traffic.', 3),
+('rope-braided', 'Rope & Braided', 'rope-braided', 'Intricately hand-braided natural coir rope mats featuring rich artisanal patterns.', 4),
+('backed-mats', 'Backed Mats', 'backed-mats', 'PVC, Rubber and Latex backed mats offering anti-skid floor protection.', 5),
+('printed-logo', 'Printed & Logo', 'printed-logo', 'Custom stencilled and screen-printed mats featuring welcome motifs or corporate logos.', 6),
+('carpet-rolls', 'Carpet & Rolls', 'carpet-rolls', 'High-end coir runner mats and master roll matting for halls and commercial custom cutting.', 7)
+ON CONFLICT (id) DO UPDATE 
+SET name = EXCLUDED.name, slug = EXCLUDED.slug, description = EXCLUDED.description, display_order = EXCLUDED.display_order;
+
+
+-- 3. PRODUCTS TABLE
 CREATE TABLE IF NOT EXISTS products (
     id VARCHAR(100) PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
     category VARCHAR(100) NOT NULL,
     category_slug VARCHAR(100) NOT NULL,
+    category_id VARCHAR(100) REFERENCES categories(id) ON DELETE SET NULL,
     image VARCHAR(255),
     description TEXT,
     price NUMERIC(10,2) DEFAULT NULL,
@@ -48,24 +74,26 @@ CREATE TABLE IF NOT EXISTS products (
 
 ALTER TABLE products ADD COLUMN IF NOT EXISTS price NUMERIC(10,2) DEFAULT NULL;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS offer_price NUMERIC(10,2) DEFAULT NULL;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS category_id VARCHAR(100) REFERENCES categories(id) ON DELETE SET NULL;
 
 -- Seed Products Catalog
-INSERT INTO products (id, name, category, category_slug, image, description, price, offer_price, status)
+INSERT INTO products (id, name, category, category_slug, category_id, image, description, price, offer_price, status)
 VALUES 
-('plain-handloom', 'Plain and Handloom', 'Plain & Handloom', 'plain-handloom', '/assets/images/01_plain_handloom.png', 'Classic hand-woven natural coir mat made from high quality 100% natural coconut fibers.', 250.00, 199.00, 'active'),
-('tufted', 'Tufted', 'Tufted', 'tufted', '/assets/images/02_tufted_pattern.png', 'Durable cut-pile tufted coir bristles designed for heavy scraping and soil absorption.', 350.00, 299.00, 'active'),
-('creel-rod', 'Creel and Rod', 'Creel & Rod', 'creel-rod', '/assets/images/03_creel_and_rod.png', 'Heavy-duty steel or wood rod reinforced coir matting built for extreme foot traffic.', 450.00, 399.00, 'active'),
-('rope-braided', 'Rope and Braided', 'Rope & Braided', 'rope-braided', '/assets/images/04_rope_braided_round.png', 'Intricately hand-braided natural coir rope mats featuring rich artisanal patterns.', 300.00, NULL, 'active'),
-('pvc-backed', 'PVC - Backed', 'Backed Mats', 'backed-mats', '/assets/images/05_pvc_backed.png', 'Non-slip PVC vinyl backing bonded with dense coir fibers for zero displacement.', 280.00, 220.00, 'active'),
-('rubber-backed', 'Rubber-Backed', 'Backed Mats', 'backed-mats', '/assets/images/06_rubber_backed_stack.png', 'Heavy molded rubber frame and base for outdoors weather resistance.', 320.00, 260.00, 'active'),
-('latex-backed', 'Latex-Backed', 'Backed Mats', 'backed-mats', '/assets/images/07_latex_backed.png', 'Eco-friendly natural latex spray backing for flexible anti-skid protection.', 290.00, NULL, 'active'),
-('printed-logo', 'Printed and Logo', 'Printed & Logo', 'printed-logo', '/assets/images/08_printed_logo_border.png', 'Custom stencilled and screen-printed mats featuring welcome motifs or corporate logos.', 400.00, 349.00, 'active'),
-('bleached-coloured', 'Bleached or Coloured', 'Printed & Logo', 'printed-logo', '/assets/images/09_bleached_coloured_stack.png', 'Sun-bleached blonde coir yarn or AZO-free dyed rich color coir mats.', 270.00, 219.00, 'active'),
-('coir-carpet', 'Coir Carpet', 'Carpet & Rolls', 'carpet-rolls', '/assets/images/10_coir_carpet_roll.png', 'High-end coir runner mats and floor carpets for hallways and eco-interiors.', 850.00, 699.00, 'active'),
-('entryways-rope-knot', 'Entryways Coir Rope Knot Doormat', 'Rope & Braided', 'rope-braided', '/assets/images/11_entryway_coir_rope.png', 'Thick braided coir rope woven into timeless knot designs for luxury entrances.', 500.00, 420.00, 'active'),
-('coir-mats-rolls', 'Coir Mat Rolls', 'Carpet & Rolls', 'carpet-rolls', '/assets/images/12_coir_mat_rolls.png', 'Master roll stock coir matting available for bulk commercial custom cutting.', 1200.00, NULL, 'active'),
-('colours-and-designs', 'Colours and Designs', 'Printed & Logo', 'printed-logo', '/assets/images/13_colours_and_designs.png', 'Vibrant geometric, striped, and multi-color coir fiber combinations.', 380.00, 319.00, 'active')
-ON CONFLICT (id) DO NOTHING;
+('plain-handloom', 'Plain and Handloom', 'Plain & Handloom', 'plain-handloom', 'plain-handloom', '/assets/images/01_plain_handloom.png', 'Classic hand-woven natural coir mat made from high quality 100% natural coconut fibers.', 250.00, 199.00, 'active'),
+('tufted', 'Tufted', 'Tufted', 'tufted', 'tufted', '/assets/images/02_tufted_pattern.png', 'Durable cut-pile tufted coir bristles designed for heavy scraping and soil absorption.', 350.00, 299.00, 'active'),
+('creel-rod', 'Creel and Rod', 'Creel & Rod', 'creel-rod', 'creel-rod', '/assets/images/03_creel_and_rod.png', 'Heavy-duty steel or wood rod reinforced coir matting built for extreme foot traffic.', 450.00, 399.00, 'active'),
+('rope-braided', 'Rope and Braided', 'Rope & Braided', 'rope-braided', 'rope-braided', '/assets/images/04_rope_braided_round.png', 'Intricately hand-braided natural coir rope mats featuring rich artisanal patterns.', 300.00, NULL, 'active'),
+('pvc-backed', 'PVC - Backed', 'Backed Mats', 'backed-mats', 'backed-mats', '/assets/images/05_pvc_backed.png', 'Non-slip PVC vinyl backing bonded with dense coir fibers for zero displacement.', 280.00, 220.00, 'active'),
+('rubber-backed', 'Rubber-Backed', 'Backed Mats', 'backed-mats', 'backed-mats', '/assets/images/06_rubber_backed_stack.png', 'Heavy molded rubber frame and base for outdoors weather resistance.', 320.00, 260.00, 'active'),
+('latex-backed', 'Latex-Backed', 'Backed Mats', 'backed-mats', 'backed-mats', '/assets/images/07_latex_backed.png', 'Eco-friendly natural latex spray backing for flexible anti-skid protection.', 290.00, NULL, 'active'),
+('printed-logo', 'Printed and Logo', 'Printed & Logo', 'printed-logo', 'printed-logo', '/assets/images/08_printed_logo_border.png', 'Custom stencilled and screen-printed mats featuring welcome motifs or corporate logos.', 400.00, 349.00, 'active'),
+('bleached-coloured', 'Bleached or Coloured', 'Printed & Logo', 'printed-logo', 'printed-logo', '/assets/images/09_bleached_coloured_stack.png', 'Sun-bleached blonde coir yarn or AZO-free dyed rich color coir mats.', 270.00, 219.00, 'active'),
+('coir-carpet', 'Coir Carpet', 'Carpet & Rolls', 'carpet-rolls', 'carpet-rolls', '/assets/images/10_coir_carpet_roll.png', 'High-end coir runner mats and floor carpets for hallways and eco-interiors.', 850.00, 699.00, 'active'),
+('entryways-rope-knot', 'Entryways Coir Rope Knot Doormat', 'Rope & Braided', 'rope-braided', 'rope-braided', '/assets/images/11_entryway_coir_rope.png', 'Thick braided coir rope woven into timeless knot designs for luxury entrances.', 500.00, 420.00, 'active'),
+('coir-mats-rolls', 'Coir Mat Rolls', 'Carpet & Rolls', 'carpet-rolls', 'carpet-rolls', '/assets/images/12_coir_mat_rolls.png', 'Master roll stock coir matting available for bulk commercial custom cutting.', 1200.00, NULL, 'active'),
+('colours-and-designs', 'Colours and Designs', 'Printed & Logo', 'printed-logo', 'printed-logo', '/assets/images/13_colours_and_designs.png', 'Vibrant geometric, striped, and multi-color coir fiber combinations.', 380.00, 319.00, 'active')
+ON CONFLICT (id) DO UPDATE 
+SET category = EXCLUDED.category, category_slug = EXCLUDED.category_slug, category_id = EXCLUDED.category_id;
 
 
 -- 3. BLOGS TABLE

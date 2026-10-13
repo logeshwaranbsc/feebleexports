@@ -3,7 +3,32 @@
         <h1>Product Management</h1>
         <p>Manage coir mat styles, patterns, roll catalog, and descriptions</p>
     </div>
-    <a href="/admin/products/create" class="btn-primary">+ Add New Product</a>
+    <div style="display: flex; gap: 0.75rem;">
+        <a href="/admin/categories" class="btn-secondary">🏷️ Manage Categories</a>
+        <a href="/admin/products/create" class="btn-primary">+ Add New Product</a>
+    </div>
+</div>
+
+<?php if (!empty($flash_success)): ?>
+    <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid var(--admin-primary); color: var(--admin-primary); padding: 0.85rem 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 500;">
+        ✓ <?= htmlspecialchars($flash_success) ?>
+    </div>
+<?php endif; ?>
+
+<!-- Category Filter Pills -->
+<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.25rem; align-items: center;">
+    <span style="font-size: 0.8rem; font-weight: 700; color: var(--admin-text-muted); text-transform: uppercase; margin-right: 0.25rem;">Filter by Category:</span>
+    <a href="/admin/products" class="badge" style="text-decoration: none; padding: 6px 12px; font-size: 0.82rem; <?= empty($selectedCategory) || $selectedCategory === 'all' ? 'background: var(--admin-primary); color: #000; font-weight: 700;' : 'background: rgba(255,255,255,0.05); color: var(--admin-text-muted);' ?>">
+        All (<?= $allProductsCount ?? count($products) ?>)
+    </a>
+    <?php if (!empty($categories)): ?>
+        <?php foreach ($categories as $cat): ?>
+            <?php if ($cat['slug'] === 'all') continue; ?>
+            <a href="/admin/products?category=<?= urlencode($cat['slug']) ?>" class="badge" style="text-decoration: none; padding: 6px 12px; font-size: 0.82rem; <?= ($selectedCategory ?? '') === $cat['slug'] ? 'background: var(--admin-primary); color: #000; font-weight: 700;' : 'background: rgba(255,255,255,0.05); color: var(--admin-text-muted);' ?>">
+                <?= htmlspecialchars($cat['name']) ?>
+            </a>
+        <?php endforeach; ?>
+    <?php endif; ?>
 </div>
 
 <div class="card-panel">
@@ -24,7 +49,7 @@
                 <?php if (empty($products)): ?>
                     <tr>
                         <td colspan="7" style="text-align: center; color: var(--admin-text-muted); padding: 3rem;">
-                            No products found in catalog.
+                            No products found matching this category filter.
                         </td>
                     </tr>
                 <?php else: ?>
@@ -42,9 +67,11 @@
                                 </div>
                             </td>
                             <td>
-                                <span class="badge badge-contact">
-                                    <?= htmlspecialchars($product['category']) ?>
-                                </span>
+                                <a href="/admin/products?category=<?= urlencode($product['category_slug'] ?? '') ?>" title="Filter by this category" style="text-decoration: none;">
+                                    <span class="badge badge-contact">
+                                        <?= htmlspecialchars($product['category']) ?>
+                                    </span>
+                                </a>
                             </td>
                             <td>
                                 <?php 

@@ -6,6 +6,7 @@ use App\Core\Auth;
 use App\Core\View;
 use App\Core\Response;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController
 {
@@ -13,14 +14,31 @@ class ProductController
     {
         Auth::requireAdmin();
 
-        $products = Product::getAll();
+        $selectedCategory = $_GET['category'] ?? '';
+        $allProducts = Product::getAll();
+
+        if (!empty($selectedCategory) && $selectedCategory !== 'all') {
+            $products = array_values(array_filter($allProducts, function ($p) use ($selectedCategory) {
+                return ($p['category_slug'] ?? '') === $selectedCategory || ($p['category_id'] ?? '') === $selectedCategory;
+            }));
+        } else {
+            $products = $allProducts;
+        }
+
+        $categories = Category::getAll();
 
         View::render('admin/products/index', [
             'title' => 'Product Management - FEEBLE EXPORTS Admin',
             'currentPage' => 'products',
             'products' => $products,
+            'allProductsCount' => count($allProducts),
+            'categories' => $categories,
+            'selectedCategory' => $selectedCategory,
+            'flash_success' => $_SESSION['flash_success'] ?? null,
             'admin' => Auth::user()
         ], true, 'admin');
+
+        unset($_SESSION['flash_success']);
     }
 
     public function create(): void

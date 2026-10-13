@@ -51,6 +51,7 @@ use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\EnquiryController;
 use App\Controllers\Admin\BlogController;
 use App\Controllers\Admin\ProductController;
+use App\Controllers\Admin\CategoryController;
 use App\Controllers\Admin\SeoController;
 use App\Controllers\Admin\ProfileController;
 use App\Controllers\Admin\UploadController;
@@ -101,6 +102,14 @@ $router->post('/admin/products/create', [ProductController::class, 'store']);
 $router->get('/admin/products/{id}/edit', [ProductController::class, 'edit']);
 $router->post('/admin/products/{id}/edit', [ProductController::class, 'update']);
 $router->post('/admin/products/{id}/delete', [ProductController::class, 'delete']);
+
+// Admin Category Routes
+$router->get('/admin/categories', [CategoryController::class, 'index']);
+$router->get('/admin/categories/create', [CategoryController::class, 'create']);
+$router->post('/admin/categories/create', [CategoryController::class, 'store']);
+$router->get('/admin/categories/{id}/edit', [CategoryController::class, 'edit']);
+$router->post('/admin/categories/{id}/edit', [CategoryController::class, 'update']);
+$router->post('/admin/categories/{id}/delete', [CategoryController::class, 'delete']);
 
 // Admin SEO Route
 $router->get('/admin/seo', [SeoController::class, 'index']);

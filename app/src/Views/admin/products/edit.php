@@ -22,8 +22,19 @@
             </div>
 
             <div class="form-group">
-                <label for="category">Category *</label>
-                <input type="text" id="category" name="category" class="form-control" value="<?= htmlspecialchars($product['category']) ?>" required>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                    <label for="category_slug" style="margin: 0;">Map to Category *</label>
+                    <a href="/admin/categories/create" target="_blank" style="font-size: 0.78rem; color: var(--admin-primary); text-decoration: underline;">+ Add New Category</a>
+                </div>
+                <select id="category_slug" name="category_slug" class="form-control" required>
+                    <option value="">-- Select Category to Map --</option>
+                    <?php foreach ($categories as $cat): ?>
+                        <?php if ($cat['slug'] === 'all') continue; ?>
+                        <option value="<?= htmlspecialchars($cat['slug']) ?>" <?= (($product['category_slug'] ?? '') === $cat['slug'] || ($product['category'] ?? '') === $cat['name'] || ($product['category_id'] ?? '') === $cat['id']) ? 'selected' : '' ?>>
+                            <?= htmlspecialchars($cat['name']) ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
                 <?php if (!empty($errors['category'])): ?>
                     <span class="form-error"><?= htmlspecialchars($errors['category']) ?></span>
                 <?php endif; ?>
