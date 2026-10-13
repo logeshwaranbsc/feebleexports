@@ -46,9 +46,9 @@
             <label for="image">Featured Image Path / URL</label>
             <div style="display: flex; gap: 0.5rem; align-items: center;">
                 <input type="text" id="image" name="image" class="form-control" value="<?= htmlspecialchars($blog['image'] ?? '/assets/images/01_plain_handloom.png') ?>">
-                <label class="btn-secondary" style="margin: 0; cursor: pointer; white-space: nowrap; font-size: 0.85rem; padding: 0.5rem 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Upload image directly to Supabase S3">
-                    <span>☁️ Upload S3</span>
-                    <input type="file" accept="image/*" class="admin-s3-upload-input" data-target="#image" data-preview="#image-preview" style="display: none;">
+                <label class="btn-secondary" style="margin: 0; cursor: pointer; white-space: nowrap; font-size: 0.85rem; padding: 0.5rem 0.85rem; display: inline-flex; align-items: center; gap: 0.35rem;" title="Upload image to server storage">
+                    <span>📁 Upload Image</span>
+                    <input type="file" accept="image/*" class="admin-file-upload-input" data-target="#image" data-preview="#image-preview" style="display: none;">
                 </label>
             </div>
             <div class="upload-status-msg" style="display: none; font-size: 0.8rem; margin-top: 0.35rem; color: var(--admin-primary);"></div>

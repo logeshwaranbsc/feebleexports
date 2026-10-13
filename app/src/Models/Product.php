@@ -213,10 +213,26 @@ class Product
     public static function getStandardSizes(): array
     {
         return [
-            '16" x 24"',
-            '18" x 30"',
-            '21" x 36"',
-            '24" x 36"'
+            [
+                'cm' => '40 × 60 cm',
+                'inches' => '16″ × 24″',
+                'label' => '40 × 60 cm (16″ × 24″)'
+            ],
+            [
+                'cm' => '45 × 75 cm',
+                'inches' => '18″ × 30″',
+                'label' => '45 × 75 cm (18″ × 30″)'
+            ],
+            [
+                'cm' => '53 × 90 cm',
+                'inches' => '21″ × 36″',
+                'label' => '53 × 90 cm (21″ × 36″)'
+            ],
+            [
+                'cm' => '60 × 90 cm',
+                'inches' => '24″ × 36″',
+                'label' => '60 × 90 cm (24″ × 36″)'
+            ]
         ];
     }
 

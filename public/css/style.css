@@ -962,25 +962,49 @@ svg {
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 12px;
 }
 
 .size-item {
   background: #ffffff;
-  padding: 6px 10px;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-anchor: middle;
   text-align: center;
   color: var(--color-text-dark);
   border: 1px solid #e5dccf;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  transition: var(--transition-fast);
+}
+
+.size-item:hover {
+  border-color: var(--color-terracotta);
+  background: #fffdf9;
+  transform: translateY(-1px);
+}
+
+.size-metric {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+  line-height: 1.2;
+}
+
+.size-imperial {
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  line-height: 1.2;
 }
 
 .size-subtext {
   font-size: 0.75rem;
   color: var(--color-text-muted);
+  line-height: 1.4;
 }
 
 /* Page 4 - Story & Timeline */

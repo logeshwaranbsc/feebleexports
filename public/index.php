@@ -110,7 +110,7 @@ $router->post('/admin/seo', [SeoController::class, 'update']);
 $router->get('/admin/profile', [ProfileController::class, 'index']);
 $router->post('/admin/profile', [ProfileController::class, 'update']);
 
-// Admin Media & Supabase S3 Upload Routes
+// Admin Media & File Storage Routes
 $router->get('/admin/uploads', [UploadController::class, 'index']);
 $router->post('/admin/uploads', [UploadController::class, 'upload']);
 $router->post('/admin/uploads/delete', [UploadController::class, 'delete']);

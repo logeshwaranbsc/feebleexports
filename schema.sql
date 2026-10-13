@@ -144,7 +144,7 @@ VALUES
 ('discover', 'Discover Us - FEEBLE EXPORTS', 'Learn about FEEBLE EXPORTS, our sustainability commitment, coir processing, and global export destinations.', 'coir sustainability, global coir export, Namakkal export manufacturing', 'Discover FEEBLE EXPORTS', 'Our vision and sustainable coir production process in Namakkal, Tamil Nadu.', '/assets/images/04_rope_braided_round.png'),
 ('products', 'Coir Mats Collection - FEEBLE EXPORTS', 'Explore our complete product catalog: Plain Handloom, Tufted, Creel & Rod, PVC Backed, Rubber Backed, and Coir Carpets.', 'coir mat collection, tufted coir, pvc backed coir, coir carpet rolls', 'Coir Products Catalog | FEEBLE EXPORTS', 'Wide collection of sustainable natural coir door mats and floor coverings.', '/assets/images/02_tufted_pattern.png'),
 ('story', 'Our Story - A Simple Mat A Brighter Tomorrow | FEEBLE EXPORTS', 'Read the journey of FEEBLE EXPORTS under the leadership of Kavimayil Venkatachalam in Namakkal, Tamil Nadu.', 'FEEBLE EXPORTS story, Kavimayil Venkatachalam, Namakkal coir history', 'Our Story - FEEBLE EXPORTS', 'From traditional handloom weaving to global export standards.', '/assets/images/03_creel_and_rod.png'),
-('contact', 'Contact Us & Get a Quote - FEEBLE EXPORTS', 'Reach out to FEEBLE EXPORTS in Namakkal, Tamil Nadu for export inquiries, custom size orders, and wholesale quotes.', 'contact FEEBLE EXPORTS, coir quote request, coir exporter contact Namakkal', 'Contact FEEBLE EXPORTS', 'Get in touch with our export team for coir products quotes and inquiries.', '/assets/images/05_pvc_backed.png'),
+('contact', 'Contact Us & Get a Quote - FEEBLE EXPORTS', 'Reach out to FEEBLE EXPORTS in Namakkal, Tamil Nadu for export inquiries, custom sizes in cm and inches, and wholesale quotes.', 'contact FEEBLE EXPORTS, coir quote request, coir exporter contact Namakkal', 'Contact FEEBLE EXPORTS', 'Get in touch with our export team for coir products quotes and inquiries.', '/assets/images/05_pvc_backed.png'),
 ('blogs', 'Blog & Export Insights - FEEBLE EXPORTS', 'Industry insights, eco-friendly matting trends, and coir manufacturing updates from FEEBLE EXPORTS.', 'coir blog, coir export trends, coconut fibre insights', 'FEEBLE EXPORTS Blog & News', 'Stay updated with eco-friendly product trends and export news.', '/assets/images/01_plain_handloom.png')
 ON CONFLICT (page_key) DO NOTHING;
 
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS uploads (
     path VARCHAR(255),
     size BIGINT DEFAULT 0,
     mime_type VARCHAR(100),
-    storage VARCHAR(50) DEFAULT 'Supabase S3',
+    storage VARCHAR(50) DEFAULT 'Local File Storage',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 

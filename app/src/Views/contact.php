@@ -40,7 +40,8 @@
             <span class="contact-info-title">Contact Person</span>
             <div class="contact-info-text">
               <strong>Kavimayil Venkatachalam</strong> (Sole Proprietress)<br>
-              <a href="tel:+918630489610">+91 8630489610</a> | <a href="tel:+447900558965">+44 7900558965</a>
+              <a href="tel:+918838489610">+91 8838489610</a> (India) | <a href="tel:+447900558965">+44 7900558965</a> (UK)<br>
+              <a href="https://wa.me/918838489610" target="_blank" rel="noopener" style="color: #16a34a; font-weight: 600; font-size: 0.88rem; display: inline-flex; align-items: center; gap: 4px; margin-top: 4px; text-decoration: none;">💬 WhatsApp: +91 8838489610</a>
             </div>
           </div>
         </div>

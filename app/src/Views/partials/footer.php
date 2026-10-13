@@ -64,8 +64,9 @@
             <li>
               <span class="contact-detail-icon">📞</span>
               <div>
-                <a href="tel:+918630489610">+91 8630489610</a> (India)<br>
-                <a href="tel:+447900558965">+44 7900558965</a> (UK)
+                <a href="tel:+918838489610">+91 8838489610</a> (India)<br>
+                <a href="tel:+447900558965">+44 7900558965</a> (UK)<br>
+                <a href="https://wa.me/918838489610" target="_blank" rel="noopener" style="font-size: 0.78rem; color: #25d366; display: inline-flex; align-items: center; gap: 4px; margin-top: 2px;">💬 WhatsApp Us</a>
               </div>
             </li>
             <li>

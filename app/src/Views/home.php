@@ -311,7 +311,7 @@
           <div class="custom-spec-icon" style="width: 34px; height: 34px; font-size: 0.9rem; margin-bottom: 6px;">✏️</div>
           <div>
             <h4 class="custom-spec-title" style="font-size: 0.85rem; margin-bottom: 2px;">Custom Sizes</h4>
-            <p class="custom-spec-desc" style="font-size: 0.72rem; line-height: 1.3;">Available according to your requirements.</p>
+            <p class="custom-spec-desc" style="font-size: 0.72rem; line-height: 1.3;">Available in both cm and inches to your exact specs.</p>
           </div>
         </div>
 

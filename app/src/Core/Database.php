@@ -54,7 +54,7 @@ class Database
         $user = $_ENV['DB_USER'] ?? getenv('DB_USER') ?: 'postgres';
         $pass = $_ENV['DB_PASS'] ?? getenv('DB_PASS') ?: '';
 
-        if (str_contains($host, 'YOUR_SUPABASE_ID')) {
+        if (str_contains($host, 'YOUR_') || str_contains($host, 'placeholder')) {
             self::$pdo = null;
             return null;
         }

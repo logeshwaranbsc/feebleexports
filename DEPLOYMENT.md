@@ -14,7 +14,7 @@ To ensure strict web security, sensitive code (`app/src/`), database/JSON storag
 ├── app/                         # Private Application Directory
 │   ├── src/                     # Controllers, Core, Models, Services, Views
 │   ├── storage/                 # Data JSON files (admin, blogs, messages, products, quotes, seo, uploads)
-│   ├── .env                     # Production environment configuration (DB credentials & Supabase keys)
+│   ├── .env                     # Production environment configuration (DB credentials & site settings)
 │   ├── .env.example             # Safe configuration template
 │   └── README.md                # Private directory security reference
 │
@@ -81,21 +81,12 @@ APP_DEBUG=false
 APP_URL=https://yourdomain.com
 APP_PATH=/home/u123456789/app
 
-# Database Connection (MySQL / PostgreSQL / Supabase)
+# Database Connection (MySQL / PostgreSQL / Local DB)
 DB_HOST=localhost
 DB_PORT=3306
 DB_NAME=u123456789_feeble
 DB_USER=u123456789_feebleuser
 DB_PASS=YOUR_SECURE_PASSWORD
-
-# Supabase S3 Storage Credentials (Optional - if using Supabase S3 bucket)
-SUPABASE_URL=https://YOUR_SUPABASE_PROJECT_REF.supabase.co
-SUPABASE_S3_ENDPOINT=https://YOUR_SUPABASE_PROJECT_REF.supabase.co/storage/v1/s3
-SUPABASE_S3_REGION=us-east-1
-SUPABASE_S3_ACCESS_KEY_ID=YOUR_SUPABASE_S3_ACCESS_KEY_ID
-SUPABASE_S3_SECRET_ACCESS_KEY=YOUR_SUPABASE_S3_SECRET_ACCESS_KEY
-SUPABASE_S3_BUCKET=feebleexports
-SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
 ```
 
 > [!IMPORTANT]
@@ -160,7 +151,7 @@ After completing deployment, perform the following verification checks:
    - Test admin modules: Enquiries, Products, Blogs, SEO Settings, Profile, Media Uploads.
 5. **Media Upload Persistence**:
    - Upload a test product image in Admin -> Media Uploads.
-   - Verify image streams to Supabase S3 or saves into `public_html/uploads/` with a valid preview URL.
+   - Verify image saves into `public_html/uploads/` with a valid preview URL.
 
 ---
 
@@ -175,9 +166,6 @@ After completing deployment, perform the following verification checks:
 - **Fix**: Ensure `public_html/.htaccess` exists with the rewrite rules active.
 
 ### Storage Read/Write Errors
-- **Cause**: Incorrect folder permissions on `app/storage/`.
-- **Fix**: Run `chmod -R 755 app/storage` in SSH or use Hostinger File Manager to grant write permission to PHP.
+- **Cause**: Incorrect folder permissions on `app/storage/` or `public_html/uploads/`.
+- **Fix**: Run `chmod -R 755 app/storage` and `chmod -R 755 public_html/uploads` in SSH or use Hostinger File Manager to grant write permission to PHP.
 
-### Supabase / S3 Upload Failures
-- **Cause**: Incorrect S3 endpoint, invalid access keys, or missing CORS / bucket configuration in Supabase Dashboard.
-- **Fix**: Verify `SUPABASE_S3_ENDPOINT`, `SUPABASE_S3_ACCESS_KEY_ID`, and `SUPABASE_S3_SECRET_ACCESS_KEY` in `app/.env`. Check local fallback saves in `public_html/uploads/`.

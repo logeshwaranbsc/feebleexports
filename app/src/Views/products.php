@@ -72,10 +72,17 @@
           <p style="font-size: 0.85rem; color: var(--color-text-muted); margin-bottom: 12px;">Standard Sizes:</p>
           <ul class="size-list">
             <?php foreach ($sizes as $sz): ?>
-              <li class="size-item"><?= htmlspecialchars($sz) ?></li>
+              <li class="size-item">
+                <?php if (is_array($sz)): ?>
+                  <span class="size-metric"><?= htmlspecialchars($sz['cm']) ?></span>
+                  <span class="size-imperial"><?= htmlspecialchars($sz['inches']) ?></span>
+                <?php else: ?>
+                  <span class="size-metric"><?= htmlspecialchars($sz) ?></span>
+                <?php endif; ?>
+              </li>
             <?php endforeach; ?>
           </ul>
-          <p class="size-subtext">(Inches for US & Canada / Centimetres for UK & Europe)</p>
+          <p class="size-subtext">(Sizes in both Centimetres & Inches for Global Markets)</p>
         </div>
 
         <div class="spec-box" style="text-align: center; background: #fff8f3; border-color: #f0d5c5;">
@@ -118,7 +125,7 @@
         </div>
         <div class="footer-contact-item">
           <span>📞</span>
-          <span>+91 8630489610 | +44 7900558965</span>
+          <a href="tel:+918838489610" style="color: inherit; text-decoration: none;">+91 8838489610</a> | <a href="tel:+447900558965" style="color: inherit; text-decoration: none;">+44 7900558965</a>
         </div>
       </div>
     </div>

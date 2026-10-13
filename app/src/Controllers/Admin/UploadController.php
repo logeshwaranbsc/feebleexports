@@ -5,7 +5,7 @@ namespace App\Controllers\Admin;
 use App\Core\Auth;
 use App\Core\View;
 use App\Core\Response;
-use App\Services\SupabaseStorageService;
+use App\Services\FileStorageService;
 use App\Models\Media;
 
 class UploadController
@@ -16,15 +16,15 @@ class UploadController
     }
 
     /**
-     * Show Media & Supabase S3 Upload Manager page.
+     * Show Media & Local File Storage Manager page.
      */
     public function index(): void
     {
-        $status = SupabaseStorageService::getStatus();
+        $status = FileStorageService::getStatus();
         $mediaList = Media::getAll();
 
         View::renderAdmin('admin/uploads/index', [
-            'title' => 'Supabase S3 Media & File Manager - FEEBLE EXPORTS',
+            'title' => 'File Storage & Media Manager - FEEBLE EXPORTS',
             'currentPage' => 'uploads',
             'status' => $status,
             'mediaList' => $mediaList,
@@ -44,7 +44,7 @@ class UploadController
         }
 
         $folder = $_POST['folder'] ?? 'uploads';
-        $res = SupabaseStorageService::uploadFile($_FILES['file'], $folder);
+        $res = FileStorageService::uploadFile($_FILES['file'], $folder);
 
         if ($res['success']) {
             $msg = $res['message'];
@@ -78,7 +78,7 @@ class UploadController
             }
 
             $folder = $_POST['folder'] ?? 'uploads';
-            $res = SupabaseStorageService::uploadFile($_FILES['file'], $folder);
+            $res = FileStorageService::uploadFile($_FILES['file'], $folder);
 
             ob_clean();
             echo json_encode($res);
@@ -106,3 +106,4 @@ class UploadController
         Response::redirect('/admin/uploads');
     }
 }
+

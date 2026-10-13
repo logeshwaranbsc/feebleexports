@@ -51,8 +51,13 @@
       </div>
 
       <div class="form-group">
+        <label style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; display: block;">Preferred Size (cms / inches)</label>
+        <input type="text" name="custom_size" class="form-input" placeholder="e.g. 40x60 cm / 16x24 in, 45x75 cm, or custom dimensions">
+      </div>
+
+      <div class="form-group">
         <label style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px; display: block;">Custom Specifications / Message</label>
-        <textarea name="notes" class="form-textarea" placeholder="Specify sizes (e.g. 18x30), colors, or custom logo print request..."></textarea>
+        <textarea name="notes" class="form-textarea" placeholder="Specify colors, backing options, logo print, or custom requirements..."></textarea>
       </div>
 
       <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;">

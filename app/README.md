@@ -13,7 +13,7 @@ This directory contains the private core application source code, data models, s
   - `Controllers/`: HTTP request handlers (Public pages, Forms, and Admin management).
   - `Core/`: Framework foundations (Router, View renderer, Auth, Response, Database loader).
   - `Models/`: Data access models for Products, Blogs, Enquiries, Quotes, Media, and SEO.
-  - `Services/`: Integration services such as Supabase S3 Storage.
+  - `Services/`: Integration services such as Local File Storage.
   - `Views/`: Page templates, partials, and layout files.
 - `storage/`: Server-writable JSON storage files (`admin.json`, `blogs.json`, `messages.json`, `products.json`, `quotes.json`, `seo.json`, `uploads.json`).
 - `.env`: Production environment variables (Must be created directly on the server).

@@ -1,47 +1,40 @@
 <div class="page-header">
     <div class="page-title-group">
-        <h1>☁️ Supabase S3 Media & Uploads</h1>
-        <p>Upload product images, catalog PDFs, and marketing assets directly to your Supabase S3 bucket.</p>
+        <h1>📁 File Storage & Media Manager</h1>
+        <p>Upload product images, catalog PDFs, and marketing assets directly to your local server storage.</p>
     </div>
 </div>
 
-<!-- Supabase S3 Connection Status Card -->
+<!-- Storage Status Card -->
 <div class="card-panel" style="margin-bottom: 2rem; padding: 1.5rem; background: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95)); border: 1px solid var(--admin-border);">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
         <div>
             <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <h3 style="font-size: 1.15rem; margin: 0; color: var(--admin-text-main);">Supabase S3 Storage Status</h3>
-                <?php if ($status['configured']): ?>
-                    <span class="badge" style="background: rgba(16,185,129,0.2); color: var(--admin-primary); border: 1px solid var(--admin-primary); font-size: 0.8rem; padding: 0.25rem 0.6rem;">🟢 S3 Active</span>
+                <h3 style="font-size: 1.15rem; margin: 0; color: var(--admin-text-main);">Local Server Storage</h3>
+                <?php if ($status['is_writable']): ?>
+                    <span class="badge" style="background: rgba(16,185,129,0.2); color: var(--admin-primary); border: 1px solid var(--admin-primary); font-size: 0.8rem; padding: 0.25rem 0.6rem;">🟢 Ready / Writable</span>
                 <?php else: ?>
-                    <span class="badge" style="background: rgba(245,158,11,0.2); color: var(--admin-warning); border: 1px solid var(--admin-warning); font-size: 0.8rem; padding: 0.25rem 0.6rem;">🟡 Keys Pending in .env</span>
+                    <span class="badge" style="background: rgba(239,68,68,0.2); color: var(--admin-danger); border: 1px solid var(--admin-danger); font-size: 0.8rem; padding: 0.25rem 0.6rem;">🔴 Directory Not Writable</span>
                 <?php endif; ?>
             </div>
             <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin: 0;">
-                Bucket: <strong style="color: var(--admin-primary);"><?= htmlspecialchars($status['bucket']) ?></strong> | Region: <strong><?= htmlspecialchars($status['region']) ?></strong> | Endpoint: <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem;"><?= htmlspecialchars($status['endpoint']) ?></code>
+                Target Directory: <code style="background: rgba(0,0,0,0.3); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; color: var(--admin-primary);"><?= htmlspecialchars($status['upload_dir']) ?></code>
+                | Files: <strong style="color: var(--admin-text-main);"><?= $status['file_count'] ?></strong>
+                | Total Size: <strong style="color: var(--admin-text-main);"><?= round(($status['total_size'] ?? 0) / 1024 / 1024, 2) ?> MB</strong>
             </p>
         </div>
-        <button type="button" onclick="document.getElementById('envInstructionsModal').style.display='block'" class="btn-secondary btn-sm" style="display: flex; align-items: center; gap: 0.35rem;">
-            ⚙️ View S3 .env Variables
-        </button>
     </div>
-
-    <?php if (!$status['configured']): ?>
-        <div style="margin-top: 1rem; padding: 0.85rem 1rem; background: rgba(245,158,11,0.1); border-left: 4px solid var(--admin-warning); border-radius: 4px; font-size: 0.85rem; color: #fde68a;">
-            <strong>💡 Quick Tip:</strong> S3 Access Keys are ready in your <code>.env</code> file. Simply open <code>.env</code> in your editor and paste your <code>SUPABASE_S3_ACCESS_KEY_ID</code> & <code>SUPABASE_S3_SECRET_ACCESS_KEY</code> from your Supabase Dashboard (<em>Storage &rarr; Settings &rarr; S3 Access Keys</em>). Uploads will fall back to local server storage until keys are added.
-        </div>
-    <?php endif; ?>
 </div>
 
 <!-- Upload Area Section -->
 <div class="card-panel" style="margin-bottom: 2rem; padding: 2rem;">
     <h3 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--admin-primary); display: flex; align-items: center; gap: 0.5rem;">
-        <span>📤</span> Upload Files to Supabase S3
+        <span>📤</span> Upload Files to Local Storage
     </h3>
 
     <form action="/admin/uploads" method="POST" enctype="multipart/form-data" id="mainUploadForm" class="admin-form">
         <div class="drag-drop-zone" id="dropZone" style="border: 2px dashed var(--admin-border); border-radius: 12px; padding: 2.5rem 1.5rem; text-align: center; background: rgba(15, 23, 42, 0.4); cursor: pointer; transition: all 0.2s ease;">
-            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">☁️</div>
+            <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📁</div>
             <h4 style="font-size: 1.05rem; margin-bottom: 0.5rem; color: var(--admin-text-main);">Drag & Drop your file here, or <span style="color: var(--admin-primary); text-decoration: underline;">Browse File</span></h4>
             <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1rem;">Supports PNG, JPG, WEBP, SVG, PDF, document files (Max 25MB)</p>
             <input type="file" name="file" id="fileInputSelect" style="display: none;" onchange="handleFileSelected(this)">
@@ -80,8 +73,8 @@
                     <th>Preview</th>
                     <th>File Name</th>
                     <th>Size</th>
-                    <th>Storage</th>
-                    <th>Public URL</th>
+                    <th>Storage Mode</th>
+                    <th>File Path / URL</th>
                     <th>Uploaded At</th>
                     <th>Actions</th>
                 </tr>
@@ -90,7 +83,7 @@
                 <?php if (empty($mediaList)): ?>
                     <tr>
                         <td colspan="7" style="text-align: center; color: var(--admin-text-muted); padding: 2.5rem;">
-                            No files uploaded yet. Select a file above to test uploading to Supabase S3!
+                            No files uploaded yet. Select a file above to upload into server storage!
                         </td>
                     </tr>
                 <?php else: ?>
@@ -115,7 +108,7 @@
                             <td><?= $formattedSize ?></td>
                             <td>
                                 <span class="badge" style="background: rgba(16,185,129,0.15); color: var(--admin-primary); font-size: 0.75rem;">
-                                    <?= htmlspecialchars($item['storage'] ?? 'S3') ?>
+                                    <?= htmlspecialchars($item['storage'] ?? 'Local File Storage') ?>
                                 </span>
                             </td>
                             <td style="max-width: 250px;">
@@ -136,41 +129,6 @@
                 <?php endif; ?>
             </tbody>
         </table>
-    </div>
-</div>
-
-<!-- S3 .env Variables Instructions Modal -->
-<div id="envInstructionsModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 999; backdrop-filter: blur(4px); align-items: center; justify-content: center; padding: 1rem;">
-    <div style="background: var(--admin-card-bg); border: 1px solid var(--admin-border); border-radius: 12px; max-width: 650px; width: 100%; padding: 2rem; position: relative; margin: 5vh auto; max-height: 85vh; overflow-y: auto;">
-        <button type="button" onclick="document.getElementById('envInstructionsModal').style.display='none'" style="position: absolute; top: 1.25rem; right: 1.25rem; background: none; border: none; color: var(--admin-text-muted); font-size: 1.5rem; cursor: pointer;">&times;</button>
-        
-        <h3 style="font-size: 1.2rem; color: var(--admin-primary); margin-bottom: 0.75rem;">🔑 Supabase S3 Environment Variables</h3>
-        <p style="font-size: 0.85rem; color: var(--admin-text-muted); margin-bottom: 1.25rem;">
-            Below are the variables added to your <code>.env</code> file. Open <code>.env</code> in your root project directory and replace the placeholders with your Supabase S3 keys:
-        </p>
-
-        <pre style="background: #0f172a; padding: 1.25rem; border-radius: 8px; border: 1px solid var(--admin-border); color: #38bdf8; font-size: 0.82rem; overflow-x: auto; font-family: monospace; margin-bottom: 1.25rem;">
-SUPABASE_URL=https://cmspxtxukztkxyjinatz.supabase.co
-SUPABASE_S3_ENDPOINT=https://cmspxtxukztkxyjinatz.supabase.co/storage/v1/s3
-SUPABASE_S3_REGION=us-east-1
-SUPABASE_S3_ACCESS_KEY_ID=YOUR_SUPABASE_S3_ACCESS_KEY_ID
-SUPABASE_S3_SECRET_ACCESS_KEY=YOUR_SUPABASE_S3_SECRET_ACCESS_KEY
-SUPABASE_S3_BUCKET=feebleexports
-SUPABASE_SERVICE_ROLE_KEY=YOUR_SUPABASE_SERVICE_ROLE_KEY
-</pre>
-
-        <h4 style="font-size: 0.95rem; color: var(--admin-text-main); margin-bottom: 0.5rem;">How to get your S3 keys in Supabase:</h4>
-        <ol style="font-size: 0.85rem; color: var(--admin-text-muted); margin-left: 1.25rem; display: flex; flex-direction: column; gap: 0.4rem;">
-            <li>Log into your <strong>Supabase Dashboard</strong>.</li>
-            <li>Go to <strong>Storage</strong> &rarr; <strong>Settings</strong> &rarr; <strong>S3 Access Keys</strong>.</li>
-            <li>Click <strong>Generate New S3 Access Key</strong>.</li>
-            <li>Copy the <strong>Access Key ID</strong> and <strong>Secret Access Key</strong> into <code>.env</code>.</li>
-            <li>Ensure a bucket named <code>feebleexports</code> (or your custom bucket name) exists in Supabase Storage and is set to <strong>Public</strong>.</li>
-        </ol>
-
-        <div style="text-align: right; margin-top: 1.5rem;">
-            <button type="button" class="btn-primary btn-sm" onclick="document.getElementById('envInstructionsModal').style.display='none'">Got it</button>
-        </div>
     </div>
 </div>
 

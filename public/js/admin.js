@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initAutoDismissAlerts();
     initDeleteConfirmations();
     initSlugGenerator();
-    initS3UploadInputs();
+    initFileUploadInputs();
 });
 
 // Mobile Sidebar Toggle
@@ -73,9 +73,9 @@ function initSlugGenerator() {
     }
 }
 
-// Inline Form S3 Upload handler
-function initS3UploadInputs() {
-    document.querySelectorAll('.admin-s3-upload-input').forEach(input => {
+// Inline Form File Upload handler
+function initFileUploadInputs() {
+    document.querySelectorAll('.admin-file-upload-input, .admin-s3-upload-input').forEach(input => {
         input.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
@@ -90,7 +90,7 @@ function initS3UploadInputs() {
             if (statusMsg) {
                 statusMsg.style.display = 'block';
                 statusMsg.style.color = 'var(--admin-primary)';
-                statusMsg.innerText = '⏳ Uploading file to Supabase S3...';
+                statusMsg.innerText = '⏳ Uploading file to server storage...';
             }
 
             const formData = new FormData();
@@ -114,7 +114,7 @@ function initS3UploadInputs() {
                     }
                     if (statusMsg) {
                         statusMsg.style.color = 'var(--admin-primary)';
-                        statusMsg.innerText = '✓ Uploaded to ' + (result.storage || 'Supabase S3') + '!';
+                        statusMsg.innerText = '✓ Uploaded to ' + (result.storage || 'Local Storage') + '!';
                         setTimeout(() => { statusMsg.style.display = 'none'; }, 4000);
                     }
                 } else {
@@ -134,4 +134,5 @@ function initS3UploadInputs() {
         });
     });
 }
+
 
