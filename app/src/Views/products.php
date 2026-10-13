@@ -37,7 +37,7 @@
                 </div>
               <?php endif; ?>
               <div class="product-thumb">
-                <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                <img src="<?= htmlspecialchars(!empty($product['image']) ? $product['image'] : '/assets/images/01_plain_handloom.png') ?>" alt="<?= htmlspecialchars($product['name']) ?>" onerror="this.src='/assets/images/01_plain_handloom.png'">
               </div>
               <div class="product-info">
                 <h3 class="product-title"><?= htmlspecialchars($product['name']) ?></h3>

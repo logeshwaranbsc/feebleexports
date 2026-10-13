@@ -835,11 +835,15 @@ svg {
   display: grid;
   grid-template-columns: 1fr 300px;
   gap: 36px;
+  align-items: start;
 }
 
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-auto-rows: max-content;
+  align-content: start;
+  align-items: start;
   gap: 24px;
 }
 
@@ -853,6 +857,8 @@ svg {
   display: flex;
   flex-direction: column;
   position: relative;
+  height: auto;
+  align-self: start;
 }
 
 .product-card:hover {
@@ -890,12 +896,13 @@ svg {
 }
 
 .product-info {
-  padding: 14px;
+  padding: 14px 12px;
   text-align: center;
-  flex-grow: 1;
+  flex-grow: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: center;
   gap: 4px;
 }
 

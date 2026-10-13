@@ -146,7 +146,7 @@ function initProductFilters() {
             productCards.forEach(card => {
                 const cardCat = card.getAttribute('data-category');
                 if (category === 'all' || cardCat === category) {
-                    card.style.display = 'flex';
+                    card.style.display = '';
                 } else {
                     card.style.display = 'none';
                 }
