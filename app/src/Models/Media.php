@@ -75,8 +75,14 @@ class Media
 
     public static function deleteRecord(string $id): bool
     {
+        $fileToDelete = null;
+
         if (Database::isConnected()) {
             try {
+                $row = Database::fetch("SELECT url FROM uploads WHERE id = :id", ['id' => $id]);
+                if (!empty($row['url']) && str_starts_with($row['url'], '/uploads/')) {
+                    $fileToDelete = PUBLIC_PATH . $row['url'];
+                }
                 Database::execute("DELETE FROM uploads WHERE id = :id", ['id' => $id]);
             } catch (\Throwable $e) {
                 // proceed
@@ -85,8 +91,17 @@ class Media
 
         if (file_exists(self::$storagePath)) {
             $items = json_decode(file_get_contents(self::$storagePath), true) ?: [];
+            foreach ($items as $item) {
+                if (($item['id'] ?? '') === $id && !empty($item['url']) && str_starts_with($item['url'], '/uploads/')) {
+                    $fileToDelete = PUBLIC_PATH . $item['url'];
+                }
+            }
             $filtered = array_filter($items, fn($item) => ($item['id'] ?? '') !== $id);
             file_put_contents(self::$storagePath, json_encode(array_values($filtered), JSON_PRETTY_PRINT));
+        }
+
+        if ($fileToDelete && file_exists($fileToDelete)) {
+            @unlink($fileToDelete);
         }
 
         return true;

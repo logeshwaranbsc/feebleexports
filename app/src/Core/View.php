@@ -30,4 +30,9 @@ class View
             require $viewFile;
         }
     }
+
+    public static function renderAdmin(string $template, array $data = []): void
+    {
+        self::render($template, $data, true, 'admin');
+    }
 }

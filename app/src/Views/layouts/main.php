@@ -4,9 +4,27 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= htmlspecialchars($title ?? 'FEEBLE EXPORTS - Sustainable Coir Products') ?></title>
-  <meta name="description" content="FEEBLE EXPORTS - Sustainable, durable, and eco-friendly natural coir mats crafted for a cleaner and greener tomorrow.">
+  <meta name="description" content="<?= htmlspecialchars($metaDescription ?? 'FEEBLE EXPORTS - Sustainable, durable, and eco-friendly natural coir mats crafted for a cleaner and greener tomorrow.') ?>">
+  <?php if (!empty($metaKeywords)): ?>
+    <meta name="keywords" content="<?= htmlspecialchars($metaKeywords) ?>">
+  <?php endif; ?>
+  <?php if (!empty($canonicalUrl)): ?>
+    <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>">
+  <?php endif; ?>
+  <?php if (!empty($ogTitle)): ?>
+    <meta property="og:title" content="<?= htmlspecialchars($ogTitle) ?>">
+  <?php endif; ?>
+  <?php if (!empty($ogDescription)): ?>
+    <meta property="og:description" content="<?= htmlspecialchars($ogDescription) ?>">
+  <?php endif; ?>
+  <?php if (!empty($ogImage)): ?>
+    <meta property="og:image" content="<?= htmlspecialchars($ogImage) ?>">
+  <?php endif; ?>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="icon" type="image/png" href="/assets/images/Feeble%20Logo.png">
+  <?php if (!empty($customHeadHtml)): ?>
+    <?= $customHeadHtml ?>
+  <?php endif; ?>
 </head>
 <body>
 

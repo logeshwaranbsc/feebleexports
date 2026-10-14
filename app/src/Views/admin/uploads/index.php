@@ -96,7 +96,8 @@
                         <tr>
                             <td>
                                 <?php if ($isImg): ?>
-                                    <img src="<?= htmlspecialchars($item['url']) ?>" alt="Preview" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid var(--admin-border); background: #000;">
+                                    <img src="<?= htmlspecialchars($item['url']) ?>" alt="Preview" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid var(--admin-border); background: #0f172a;" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+                                    <div style="width: 48px; height: 48px; display: none; align-items: center; justify-content: center; background: var(--admin-bg); border-radius: 6px; border: 1px solid var(--admin-border); font-size: 1.25rem;">🖼️</div>
                                 <?php else: ?>
                                     <div style="width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--admin-bg); border-radius: 6px; border: 1px solid var(--admin-border); font-size: 1.25rem;">📄</div>
                                 <?php endif; ?>
@@ -111,10 +112,10 @@
                                     <?= htmlspecialchars($item['storage'] ?? 'Local File Storage') ?>
                                 </span>
                             </td>
-                            <td style="max-width: 250px;">
+                            <td style="min-width: 240px;">
                                 <div style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="text" readonly value="<?= htmlspecialchars($item['url']) ?>" class="form-control" style="font-size: 0.75rem; padding: 0.25rem 0.5rem; height: 30px;" id="url_<?= htmlspecialchars($item['id']) ?>">
-                                    <button type="button" class="btn-secondary btn-sm" onclick="copyUrlToClipboard('url_<?= htmlspecialchars($item['id']) ?>', this)" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Copy</button>
+                                    <input type="text" readonly value="<?= htmlspecialchars($item['url']) ?>" class="form-control" style="font-size: 0.75rem; padding: 0.25rem 0.5rem; height: 32px; flex: 1; min-width: 140px; background: rgba(15, 23, 42, 0.6); color: #cbd5e1;" id="url_<?= htmlspecialchars($item['id']) ?>">
+                                    <button type="button" class="btn-secondary btn-sm" onclick="copyUrlToClipboard('url_<?= htmlspecialchars($item['id']) ?>', this)" style="padding: 0.25rem 0.65rem; font-size: 0.75rem; white-space: nowrap;">Copy</button>
                                 </div>
                             </td>
                             <td><?= date('M d, Y H:i', strtotime($item['created_at'] ?? 'now')) ?></td>

@@ -343,3 +343,71 @@
 <!-- 6. COIR CRAFTED IN INDIA. READY FOR GLOBAL MARKETS. -->
 <?php require BASE_PATH . '/src/Views/partials/global-markets.php'; ?>
 
+<!-- 7. INDUSTRY INSIGHTS & BLOGS (BELOW GLOBAL MARKETS, ABOVE FOOTER) -->
+<section class="home-blogs-section" id="home-blogs">
+  <div class="container">
+    <div class="home-blogs-header">
+      <span class="home-blogs-eyebrow">INDUSTRY INSIGHTS &amp; COIR JOURNAL</span>
+      <h2 class="home-blogs-title">Stories From The World of Coir</h2>
+      <p class="home-blogs-subtitle">
+        Discover articles on eco-friendly living, international export standards, and our handloom weaving traditions in Namakkal, Tamil Nadu.
+      </p>
+    </div>
+
+    <?php if (!empty($blogs)): ?>
+      <div class="home-blogs-grid">
+        <?php foreach ($blogs as $blog): ?>
+          <article class="home-blog-card">
+            <a href="/blog/<?= htmlspecialchars($blog['slug'] ?? '') ?>" class="home-blog-card-media" aria-label="<?= htmlspecialchars($blog['title'] ?? '') ?>">
+              <div class="home-blog-card-img-wrap">
+                <img 
+                  src="<?= htmlspecialchars($blog['image'] ?: '/assets/images/01_plain_handloom.png') ?>" 
+                  alt="<?= htmlspecialchars($blog['title'] ?? '') ?>" 
+                  class="home-blog-card-img"
+                  loading="lazy"
+                  onerror="this.onerror=null; this.src='/assets/images/01_plain_handloom.png';"
+                >
+                <span class="home-blog-badge"><?= htmlspecialchars($blog['category'] ?? 'Export Journal') ?></span>
+              </div>
+            </a>
+            <div class="home-blog-card-content">
+              <div class="home-blog-meta">
+                <span class="home-blog-meta-date">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <?= date('M d, Y', strtotime($blog['created_at'] ?? 'now')) ?>
+                </span>
+                <span class="home-blog-meta-sep">•</span>
+                <span class="home-blog-meta-author">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <?= htmlspecialchars($blog['author'] ?? 'Kavimayil Venkatachalam') ?>
+                </span>
+              </div>
+              <h3 class="home-blog-card-title">
+                <a href="/blog/<?= htmlspecialchars($blog['slug'] ?? '') ?>">
+                  <?= htmlspecialchars($blog['title'] ?? '') ?>
+                </a>
+              </h3>
+              <p class="home-blog-card-excerpt">
+                <?= htmlspecialchars($blog['excerpt'] ?? '') ?>
+              </p>
+              <div class="home-blog-card-action">
+                <a href="/blog/<?= htmlspecialchars($blog['slug'] ?? '') ?>" class="home-blog-link">
+                  <span>Read Full Article</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="home-blog-arrow">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </article>
+        <?php endforeach; ?>
+      </div>
+    <?php else: ?>
+      <div class="home-blogs-empty">
+        <p>No articles published yet. Check back soon for industry insights and export news.</p>
+      </div>
+    <?php endif; ?>
+  </div>
+</section>
+

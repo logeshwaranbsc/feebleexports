@@ -4102,3 +4102,1099 @@ svg {
     gap: 12px;
   }
 }
+
+/* ==========================================================================
+   HOME PAGE BLOGS SECTION (Located above footer, below "From India to the World")
+   ========================================================================== */
+.home-blogs-section {
+  background-color: #faf7f2;
+  border-top: 1px solid #ebd9c8;
+  padding: clamp(56px, 7vw, 96px) 0;
+  position: relative;
+}
+
+.home-blogs-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto clamp(36px, 5vw, 56px) auto;
+}
+
+.home-blogs-eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #c0643c;
+  margin-bottom: 12px;
+  padding: 4px 14px;
+  background-color: rgba(192, 100, 60, 0.08);
+  border-radius: 50px;
+  border: 1px solid rgba(192, 100, 60, 0.2);
+}
+
+.home-blogs-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2rem, 3.8vw, 2.75rem);
+  font-weight: 700;
+  color: #241f1a;
+  line-height: 1.25;
+  margin: 0 0 16px 0;
+  letter-spacing: -0.01em;
+}
+
+.home-blogs-subtitle {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #635549;
+  margin: 0 auto;
+}
+
+.home-blogs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: clamp(24px, 4vw, 40px);
+  align-items: stretch;
+}
+
+.home-blog-card {
+  background: #ffffff;
+  border: 1px solid #ebd9c8;
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+  box-shadow: 0 4px 20px rgba(45, 30, 15, 0.04);
+}
+
+.home-blog-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(45, 30, 15, 0.1);
+  border-color: #c0643c;
+}
+
+.home-blog-card-media {
+  display: block;
+  text-decoration: none;
+  overflow: hidden;
+  background-color: #f0ece3;
+}
+
+.home-blog-card-img-wrap {
+  position: relative;
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+}
+
+.home-blog-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.home-blog-card:hover .home-blog-card-img {
+  transform: scale(1.05);
+}
+
+.home-blog-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(36, 31, 26, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  z-index: 2;
+}
+
+.home-blog-card-content {
+  padding: clamp(20px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.home-blog-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: #8c7b6d;
+  margin-bottom: 14px;
+}
+
+.home-blog-meta-date,
+.home-blog-meta-author {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.home-blog-meta-sep {
+  color: #d0c2b2;
+}
+
+.home-blog-card-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.35;
+  margin: 0 0 14px 0;
+}
+
+.home-blog-card-title a {
+  color: #241f1a;
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.home-blog-card:hover .home-blog-card-title a,
+.home-blog-card-title a:hover {
+  color: #c0643c;
+}
+
+.home-blog-card-excerpt {
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: #635549;
+  margin: 0 0 24px 0;
+  flex-grow: 1;
+}
+
+.home-blog-card-action {
+  border-top: 1px solid #f2e9dc;
+  padding-top: 18px;
+  margin-top: auto;
+}
+
+.home-blog-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #c0643c;
+  text-decoration: none;
+  transition: gap 0.25s ease, color 0.25s ease;
+}
+
+.home-blog-link .home-blog-arrow {
+  transition: transform 0.25s ease;
+}
+
+.home-blog-card:hover .home-blog-link {
+  color: #9f4924;
+}
+
+.home-blog-card:hover .home-blog-link .home-blog-arrow {
+  transform: translateX(5px);
+}
+
+.home-blogs-empty {
+  text-align: center;
+  padding: 48px 24px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px dashed #ebd9c8;
+  color: #8c7b6d;
+}
+
+/* ==========================================================================
+   BLOG DETAIL PAGE STYLES
+   ========================================================================== */
+.blog-detail-page {
+  background-color: #faf7f2;
+  padding-bottom: 96px;
+}
+
+.blog-detail-header {
+  background: linear-gradient(180deg, #f3ede2 0%, #faf7f2 100%);
+  padding: clamp(36px, 5vw, 64px) 0 32px 0;
+  border-bottom: 1px solid #ebd9c8;
+}
+
+.blog-breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: #8c7b6d;
+  margin-bottom: 24px;
+}
+
+.blog-breadcrumb a {
+  color: #8c7b6d;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.blog-breadcrumb a:hover {
+  color: #c0643c;
+}
+
+.crumb-sep {
+  color: #d0c2b2;
+}
+
+.crumb-current {
+  color: #241f1a;
+  font-weight: 600;
+  max-width: 380px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.blog-detail-badge-wrap {
+  margin-bottom: 16px;
+}
+
+.blog-detail-category-badge {
+  display: inline-block;
+  background-color: #c0643c;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 50px;
+}
+
+.blog-detail-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.22;
+  color: #241f1a;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.015em;
+  max-width: 920px;
+}
+
+.blog-detail-meta-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e7ded2;
+}
+
+.blog-author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.blog-author-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #e6ded1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: 1px solid #d4c8b6;
+}
+
+.blog-author-name {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #241f1a;
+}
+
+.blog-author-role {
+  display: block;
+  font-size: 0.8rem;
+  color: #8c7b6d;
+}
+
+.blog-meta-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: #8c7b6d;
+}
+
+.blog-meta-date,
+.blog-meta-readtime {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.blog-detail-visual-section {
+  padding: 36px 0 20px 0;
+}
+
+.blog-hero-image-wrap {
+  width: 100%;
+  max-height: 480px;
+  overflow: hidden;
+  border-radius: 20px;
+  box-shadow: 0 12px 36px rgba(45, 30, 15, 0.08);
+  border: 1px solid #ebd9c8;
+}
+
+.blog-hero-image {
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  object-fit: cover;
+  display: block;
+}
+
+.blog-detail-body-section {
+  padding-top: 24px;
+}
+
+.blog-content-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 48px;
+  align-items: start;
+}
+
+.blog-article-main {
+  background: #ffffff;
+  padding: clamp(28px, 4vw, 48px);
+  border-radius: 20px;
+  border: 1px solid #ebd9c8;
+  box-shadow: 0 4px 20px rgba(45, 30, 15, 0.03);
+}
+
+.blog-lead-box {
+  background: #fdfaf6;
+  border-left: 4px solid #c0643c;
+  padding: 20px 24px;
+  border-radius: 0 12px 12px 0;
+  margin-bottom: 32px;
+}
+
+.blog-lead-text {
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: #423830;
+  font-weight: 500;
+  margin: 0;
+}
+
+.blog-rich-content {
+  font-size: 1.05rem;
+  line-height: 1.85;
+  color: #383028;
+  margin-bottom: 40px;
+}
+
+.blog-callout-box {
+  background: #f4efe6;
+  border: 1px solid #e1d4c2;
+  border-radius: 14px;
+  padding: 24px;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin: 36px 0;
+}
+
+.blog-callout-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.blog-callout-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #241f1a;
+  margin: 0 0 8px 0;
+}
+
+.blog-callout-text {
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #5a4e44;
+  margin: 0;
+}
+
+.blog-footer-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  border-top: 1px solid #f0e6d8;
+  padding-top: 28px;
+  margin-top: 24px;
+}
+
+.blog-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.blog-sidebar-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 18px;
+  border: 1px solid #ebd9c8;
+  box-shadow: 0 4px 16px rgba(45, 30, 15, 0.03);
+}
+
+.sidebar-card-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #241f1a;
+  margin: 0 0 16px 0;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0e6d8;
+}
+
+.sidebar-author-profile {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.sidebar-avatar-large {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #c0643c;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.sidebar-author-name {
+  display: block;
+  font-size: 0.95rem;
+  color: #241f1a;
+  margin-bottom: 4px;
+}
+
+.sidebar-author-bio {
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: #635549;
+  margin: 0;
+}
+
+.sidebar-recent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sidebar-recent-item {
+  display: flex;
+  gap: 12px;
+  text-decoration: none;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.sidebar-recent-item:hover {
+  transform: translateX(4px);
+}
+
+.sidebar-recent-thumb-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: #f0ece3;
+}
+
+.sidebar-recent-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sidebar-recent-date {
+  display: block;
+  font-size: 0.72rem;
+  color: #8c7b6d;
+  margin-bottom: 4px;
+}
+
+.sidebar-recent-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #241f1a;
+  margin: 0;
+  line-height: 1.35;
+  transition: color 0.2s ease;
+}
+
+.sidebar-recent-item:hover .sidebar-recent-title {
+  color: #c0643c;
+}
+
+.sidebar-cta-box {
+  background: linear-gradient(135deg, #241f1a 0%, #3a312a 100%);
+  color: #ffffff;
+  border: none;
+  text-align: center;
+  padding: 28px 24px;
+}
+
+.sidebar-cta-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.sidebar-cta-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.25rem;
+  color: #ffffff;
+  margin: 0 0 10px 0;
+}
+
+.sidebar-cta-text {
+  font-size: 0.84rem;
+  color: #d8cebf;
+  line-height: 1.55;
+  margin: 0 0 20px 0;
+}
+
+@media (max-width: 900px) {
+  .blog-content-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .home-blogs-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   PUBLIC DYNAMIC SEO LANDING PAGE STYLES (COMPACT & BALANCED SPACING)
+   ========================================================================== */
+
+.seo-landing-page {
+  width: 100%;
+}
+
+/* Reduced general section padding on the SEO Landing Page */
+.seo-landing-page .section-padding {
+  padding: clamp(32px, 3.8vw, 48px) clamp(20px, 3vw, 40px) !important;
+}
+
+.seo-preview-ribbon {
+  background-color: #0f172a;
+  border-bottom: 2px solid #10b981;
+  color: #f8fafc;
+  padding: 10px 0;
+  font-size: 0.88rem;
+  position: relative;
+  z-index: 1000;
+}
+
+/* 1. Hero Section - Compact padding */
+.seo-landing-hero {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: clamp(38px, 4.5vw, 56px) 0 !important;
+  color: #ffffff;
+}
+
+.seo-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.95fr);
+  gap: clamp(24px, 3.5vw, 48px);
+  align-items: center;
+}
+
+.seo-hero-copy {
+  display: flex;
+  flex-direction: column;
+}
+
+.seo-hero-eyebrow-tag {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f7a97b;
+  margin-bottom: 12px;
+  padding: 4px 12px;
+  background-color: rgba(192, 100, 60, 0.25);
+  border-radius: 50px;
+  border: 1px solid rgba(247, 169, 123, 0.35);
+}
+
+.seo-hero-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: clamp(2.1rem, 3.8vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #ffffff;
+  margin: 0 0 14px 0;
+  letter-spacing: -0.015em;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.seo-hero-subheading {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #e5ded4;
+  margin: 0 0 20px 0;
+  max-width: 560px;
+}
+
+.seo-hero-trust-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.seo-trust-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: 50px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Hero Lead Form Card */
+.seo-quote-card {
+  background: #ffffff;
+  color: #241f1a;
+  border-radius: 16px;
+  padding: clamp(20px, 2.8vw, 30px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.seo-form-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #241f1a;
+  margin: 0 0 4px 0;
+}
+
+.seo-form-subtitle {
+  font-size: 0.84rem;
+  color: #6b5e52;
+  margin: 0 0 14px 0;
+}
+
+.seo-form-field {
+  margin-bottom: 10px;
+}
+
+.seo-form-field label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #423830;
+  margin-bottom: 3px;
+}
+
+.seo-form-field input,
+.seo-form-field textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d4c8b6;
+  background-color: #faf7f2;
+  color: #241f1a;
+  font-family: inherit;
+  font-size: 0.88rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.seo-form-field input:focus,
+.seo-form-field textarea:focus {
+  outline: none;
+  border-color: #c0643c;
+  background-color: #ffffff;
+}
+
+/* Compact Section Headers */
+.seo-section-header-compact {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.seo-section-header-compact .section-tag {
+  display: inline-block;
+  margin-bottom: 6px;
+}
+
+.seo-section-header-compact .section-heading {
+  font-size: clamp(1.9rem, 2.8vw, 2.4rem);
+  margin-bottom: 8px;
+}
+
+.seo-landing-page .section-heading {
+  font-size: clamp(1.9rem, 2.8vw, 2.4rem);
+  margin-bottom: 10px;
+}
+
+/* 2-column visual & copy layout */
+.seo-landing-page .seo-visual-wrap {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(45, 30, 15, 0.08);
+}
+
+.seo-landing-page .seo-section-img {
+  width: 100%;
+  height: 290px;
+  object-fit: cover;
+  display: block;
+}
+
+.seo-landing-page .seo-rich-text {
+  font-size: 1rem;
+  line-height: 1.65;
+  color: #4a3e35;
+}
+
+.seo-landing-page .seo-rich-text p {
+  margin-bottom: 0.8rem;
+}
+
+.seo-landing-page .seo-rich-text p:last-child {
+  margin-bottom: 0;
+}
+
+.seo-landing-page .seo-rich-text h3 {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.25rem;
+  color: #241f1a;
+  margin: 1rem 0 0.5rem;
+}
+
+.seo-landing-page .seo-rich-text ul,
+.seo-landing-page .seo-rich-text ol {
+  margin: 0.75rem 0 0.85rem 1.25rem;
+}
+
+.seo-landing-page .seo-rich-text li {
+  margin-bottom: 0.35rem;
+}
+
+/* 4. Content Block 1 - Editorial Highlight */
+.seo-landing-page .seo-content-block-section {
+  padding: clamp(24px, 3vw, 36px) clamp(20px, 3vw, 40px) !important;
+  background-color: #f7f2ea;
+}
+
+.seo-landing-page .seo-content-block-section .section-heading {
+  margin-bottom: 8px;
+}
+
+.seo-landing-page .seo-content-block-section .editorial-text {
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* 5. Selected Projects Showcase Grid */
+.seo-landing-page .seo-projects-section {
+  padding-top: clamp(28px, 3.5vw, 42px) !important;
+  padding-bottom: clamp(28px, 3.5vw, 42px) !important;
+}
+
+.seo-projects-showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  align-items: stretch;
+}
+
+.seo-project-card {
+  background: #ffffff;
+  border: 1px solid #ebd9c8;
+  border-radius: 14px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  box-shadow: 0 4px 14px rgba(45, 30, 15, 0.04);
+}
+
+.seo-project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(45, 30, 15, 0.09);
+  border-color: #c0643c;
+}
+
+.seo-project-thumb-wrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background-color: #f2ede5;
+}
+
+.seo-project-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.seo-project-card:hover .seo-project-thumb {
+  transform: scale(1.04);
+}
+
+.seo-project-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(36, 31, 26, 0.85);
+  backdrop-filter: blur(5px);
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 50px;
+  letter-spacing: 0.05em;
+}
+
+.seo-project-card-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.seo-project-title {
+  font-family: "Playfair Display", Georgia, serif;
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: #241f1a;
+  margin: 0 0 6px 0;
+}
+
+.seo-project-desc {
+  font-size: 0.84rem;
+  color: #6b5e52;
+  line-height: 1.5;
+  margin: 0 0 14px 0;
+  flex-grow: 1;
+}
+
+.seo-project-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f2e9de;
+  padding-top: 10px;
+}
+
+.seo-project-inquire-btn {
+  background-color: #c0643c;
+  color: #ffffff;
+  border: none;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.seo-project-inquire-btn:hover {
+  background-color: #9f4924;
+}
+
+/* 6. Content Block 2 - Box styling with tight vertical margins */
+.seo-landing-page .seo-content-block-2 {
+  padding: clamp(16px, 2.2vw, 26px) clamp(20px, 3vw, 40px) !important;
+}
+
+.content-block-2-box {
+  background: #fdfaf6;
+  border: 1px solid #ebd9c8;
+  border-radius: 12px;
+  padding: 18px 24px;
+  text-align: center;
+  box-shadow: 0 3px 12px rgba(45, 30, 15, 0.03);
+}
+
+.content-block-2-box p {
+  margin: 0;
+  font-size: 1rem;
+  color: #4a3e35;
+  line-height: 1.6;
+}
+
+/* 7. Testimonials Section */
+.seo-testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.seo-testimonial-card {
+  background: #ffffff;
+  border: 1px solid #ebd9c8;
+  border-radius: 14px;
+  padding: 20px 22px;
+  box-shadow: 0 3px 14px rgba(45, 30, 15, 0.04);
+  display: flex;
+  flex-direction: column;
+}
+
+.seo-testimonial-rating {
+  color: #f59e0b;
+  font-size: 1.05rem;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.seo-testimonial-quote {
+  font-size: 0.94rem;
+  line-height: 1.55;
+  color: #3d3229;
+  font-style: italic;
+  margin: 0 0 14px 0;
+  flex-grow: 1;
+}
+
+.seo-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.seo-author-avatar-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #c0643c;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.seo-author-name {
+  display: block;
+  font-size: 0.9rem;
+  color: #241f1a;
+}
+
+.seo-author-role {
+  display: block;
+  font-size: 0.75rem;
+  color: #8c7b6d;
+}
+
+/* 8. FAQ Accordion Section */
+.seo-accordion-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.seo-accordion-item {
+  background: #ffffff;
+  border: 1px solid #ebd9c8;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.seo-accordion-item[open] {
+  border-color: #c0643c;
+  box-shadow: 0 4px 14px rgba(45, 30, 15, 0.05);
+}
+
+.seo-accordion-summary {
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 700;
+  color: #241f1a;
+  font-size: 0.98rem;
+  list-style: none;
+}
+
+.seo-accordion-summary::-webkit-details-marker {
+  display: none;
+}
+
+.seo-accordion-icon {
+  font-size: 1.2rem;
+  color: #c0643c;
+  font-weight: 400;
+  transition: transform 0.2s ease;
+}
+
+.seo-accordion-item[open] .seo-accordion-icon {
+  transform: rotate(45deg);
+}
+
+.seo-accordion-body {
+  padding: 0 18px 14px 18px;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: #5a4e44;
+}
+
+/* 9. Bottom Call to Action Banner */
+.seo-landing-page .seo-cta-banner {
+  padding: clamp(34px, 4vw, 48px) clamp(20px, 3vw, 40px) !important;
+}
+
+@media (max-width: 900px) {
+  .seo-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .seo-landing-page .seo-section-img {
+    height: 240px;
+  }
+}

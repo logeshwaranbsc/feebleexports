@@ -66,6 +66,8 @@ $router->get('/products', [PageController::class, 'products']);
 $router->get('/our-story', [PageController::class, 'story']);
 $router->get('/contact', [PageController::class, 'contact']);
 $router->get('/all-pages', [PageController::class, 'allPages']);
+$router->get('/blogs', [PageController::class, 'blogs']);
+$router->get('/blog/{slug}', [PageController::class, 'blogDetail']);
 
 // Public API / Form Submission routes
 $router->post('/api/contact', [ContactController::class, 'submit']);
@@ -111,9 +113,14 @@ $router->get('/admin/categories/{id}/edit', [CategoryController::class, 'edit'])
 $router->post('/admin/categories/{id}/edit', [CategoryController::class, 'update']);
 $router->post('/admin/categories/{id}/delete', [CategoryController::class, 'delete']);
 
-// Admin SEO Route
+// Admin SEO Routes
 $router->get('/admin/seo', [SeoController::class, 'index']);
-$router->post('/admin/seo', [SeoController::class, 'update']);
+$router->get('/admin/seo/create', [SeoController::class, 'create']);
+$router->post('/admin/seo/create', [SeoController::class, 'store']);
+$router->get('/admin/seo/{id}/edit', [SeoController::class, 'edit']);
+$router->post('/admin/seo/{id}/edit', [SeoController::class, 'update']);
+$router->post('/admin/seo/{id}/delete', [SeoController::class, 'delete']);
+$router->get('/admin/seo/{id}/preview', [SeoController::class, 'preview']);
 
 // Admin Profile Route
 $router->get('/admin/profile', [ProfileController::class, 'index']);
@@ -123,7 +130,14 @@ $router->post('/admin/profile', [ProfileController::class, 'update']);
 $router->get('/admin/uploads', [UploadController::class, 'index']);
 $router->post('/admin/uploads', [UploadController::class, 'upload']);
 $router->post('/admin/uploads/delete', [UploadController::class, 'delete']);
+$router->get('/admin/media', [UploadController::class, 'index']);
+$router->post('/admin/media', [UploadController::class, 'upload']);
+$router->post('/admin/media/delete', [UploadController::class, 'delete']);
+$router->get('/admin/media-uploads', [UploadController::class, 'index']);
 $router->post('/admin/api/upload', [UploadController::class, 'apiUpload']);
+
+// Dynamic Public SEO Landing Page Route (Evaluated after all specific and admin routes)
+$router->get('/{slug}', [PageController::class, 'seoLanding']);
 
 // Dispatch Request
 $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);

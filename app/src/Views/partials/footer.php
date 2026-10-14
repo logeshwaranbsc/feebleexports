@@ -32,6 +32,7 @@
             <li><a href="/products"><span class="link-arrow">&rsaquo;</span> Products Collection</a></li>
             <li><a href="/our-story"><span class="link-arrow">&rsaquo;</span> Our Story</a></li>
             <li><a href="/contact"><span class="link-arrow">&rsaquo;</span> Contact Us</a></li>
+            <li><a href="/home#home-blogs"><span class="link-arrow">&rsaquo;</span> Blogs &amp; Insights</a></li>
             <li><a href="/all-pages"><span class="link-arrow">&rsaquo;</span> All Pages Showcase</a></li>
           </ul>
         </div>

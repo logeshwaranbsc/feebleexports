@@ -190,3 +190,38 @@ CREATE TABLE IF NOT EXISTS uploads (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+
+-- 8. SEO PAGES (LANDING PAGES) TABLE
+CREATE TABLE IF NOT EXISTS seo_pages (
+    id VARCHAR(100) PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    slug VARCHAR(255) UNIQUE NOT NULL,
+    status VARCHAR(20) DEFAULT 'draft',
+    canonical_url VARCHAR(255),
+    meta_title VARCHAR(255),
+    meta_description TEXT,
+    meta_keywords TEXT,
+    custom_head_html TEXT,
+    hero_image VARCHAR(255),
+    hero_heading VARCHAR(255),
+    hero_form_title VARCHAR(255) DEFAULT 'Get a Quote',
+    hero_subheading TEXT,
+    why_choose_image VARCHAR(255),
+    why_choose_heading VARCHAR(255),
+    why_choose_content TEXT,
+    about_image VARCHAR(255),
+    about_heading VARCHAR(255),
+    about_content TEXT,
+    content_block_1_heading VARCHAR(255),
+    content_block_1_content TEXT,
+    selected_projects JSONB DEFAULT '[]'::jsonb,
+    content_block_2_content TEXT,
+    show_testimonials BOOLEAN DEFAULT TRUE,
+    testimonials JSONB DEFAULT '[]'::jsonb,
+    show_faq BOOLEAN DEFAULT TRUE,
+    faqs JSONB DEFAULT '[]'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    published_at TIMESTAMP WITH TIME ZONE
+);
+

@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDeleteConfirmations();
     initSlugGenerator();
     initFileUploadInputs();
+    initSeoEditor();
 });
 
 // Mobile Sidebar Toggle
@@ -134,5 +135,245 @@ function initFileUploadInputs() {
         });
     });
 }
+
+// SEO Landing Page Editor Interactivity
+function initSeoEditor() {
+    const seoForm = document.getElementById('seoPageForm');
+    if (!seoForm) return;
+
+    // 1. Meta Title & Description Live Character Counters
+    const metaTitle = document.getElementById('meta_title');
+    const metaTitleCount = document.getElementById('metaTitleCount');
+    if (metaTitle && metaTitleCount) {
+        metaTitle.addEventListener('input', () => {
+            metaTitleCount.textContent = metaTitle.value.length;
+        });
+    }
+
+    const metaDesc = document.getElementById('meta_description');
+    const metaDescCount = document.getElementById('metaDescCount');
+    if (metaDesc && metaDescCount) {
+        metaDesc.addEventListener('input', () => {
+            metaDescCount.textContent = metaDesc.value.length;
+        });
+    }
+
+    // 2. Slug & Live URL Preview
+    const slugInput = document.getElementById('slug');
+    const urlPreview = document.getElementById('publicUrlPreview');
+    if (slugInput && urlPreview) {
+        slugInput.addEventListener('input', () => {
+            urlPreview.textContent = '/' + slugInput.value.replace(/^\/+/, '');
+        });
+    }
+
+    // 3. Media Remove Buttons
+    document.querySelectorAll('.btn-media-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetSel = btn.getAttribute('data-target');
+            const previewSel = btn.getAttribute('data-preview');
+            const targetInput = targetSel ? document.querySelector(targetSel) : null;
+            const previewImg = previewSel ? document.querySelector(previewSel) : null;
+
+            if (targetInput) targetInput.value = '';
+            if (previewImg) previewImg.src = '/assets/images/01_plain_handloom.png';
+        });
+    });
+
+    // 4. Rich-Text Editors
+    document.querySelectorAll('.rich-text-wrapper').forEach(wrapper => {
+        const toolbar = wrapper.querySelector('.rich-text-toolbar');
+        const canvas = wrapper.querySelector('.rich-text-canvas');
+        const textarea = wrapper.querySelector('.rich-text-textarea');
+        let isSourceMode = false;
+
+        if (!canvas || !textarea) return;
+
+        // Toolbar actions
+        if (toolbar) {
+            toolbar.querySelectorAll('.rt-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (btn.classList.contains('rt-btn-source')) {
+                        // Toggle source view
+                        isSourceMode = !isSourceMode;
+                        if (isSourceMode) {
+                            textarea.value = canvas.innerHTML;
+                            canvas.style.display = 'none';
+                            textarea.style.display = 'block';
+                            textarea.style.width = '100%';
+                            textarea.style.minHeight = '140px';
+                            btn.classList.add('is-active');
+                        } else {
+                            canvas.innerHTML = textarea.value;
+                            textarea.style.display = 'none';
+                            canvas.style.display = 'block';
+                            btn.classList.remove('is-active');
+                        }
+                        return;
+                    }
+
+                    if (isSourceMode) return;
+
+                    const command = btn.getAttribute('data-command');
+                    const value = btn.getAttribute('data-value') || null;
+
+                    if (command === 'createLink') {
+                        const url = prompt('Enter link URL (e.g. https://... or /contact):', 'https://');
+                        if (url) document.execCommand('createLink', false, url);
+                    } else if (command === 'formatBlock') {
+                        document.execCommand('formatBlock', false, value);
+                    } else if (command) {
+                        document.execCommand(command, false, null);
+                    }
+                    syncContent();
+                });
+            });
+        }
+
+        function syncContent() {
+            if (!isSourceMode) {
+                textarea.value = canvas.innerHTML;
+            } else {
+                canvas.innerHTML = textarea.value;
+            }
+        }
+
+        canvas.addEventListener('input', syncContent);
+        canvas.addEventListener('blur', syncContent);
+        textarea.addEventListener('input', syncContent);
+
+        // Sync before form submission
+        seoForm.addEventListener('submit', () => {
+            syncContent();
+        });
+    });
+
+    // 5. Projects Multi-Picker
+    const projectCards = document.querySelectorAll('.project-picker-card');
+    const selectedCounter = document.getElementById('selectedProjectsCount');
+
+    function updateProjectCounter() {
+        const checked = document.querySelectorAll('.project-picker-checkbox:checked').length;
+        if (selectedCounter) selectedCounter.textContent = checked;
+    }
+
+    projectCards.forEach(card => {
+        card.addEventListener('click', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            const checkbox = card.querySelector('.project-picker-checkbox');
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+                card.classList.toggle('is-selected', checkbox.checked);
+                updateProjectCounter();
+            }
+        });
+    });
+
+    // 6. Testimonials Toggle & Repeater
+    const toggleTestimonials = document.getElementById('toggleTestimonials');
+    const testimonialsContainer = document.getElementById('testimonialsContainer');
+    const testimonialsList = document.getElementById('testimonialsList');
+    const btnAddTestimonial = document.getElementById('btnAddTestimonial');
+
+    if (toggleTestimonials && testimonialsContainer) {
+        toggleTestimonials.addEventListener('change', () => {
+            testimonialsContainer.style.display = toggleTestimonials.checked ? 'block' : 'none';
+        });
+    }
+
+    if (btnAddTestimonial && testimonialsList) {
+        btnAddTestimonial.addEventListener('click', () => {
+            const nextIndex = testimonialsList.querySelectorAll('.repeater-item-card').length;
+            const newCard = document.createElement('div');
+            newCard.className = 'repeater-item-card';
+            newCard.setAttribute('data-index', nextIndex);
+            newCard.innerHTML = `
+                <div class="repeater-item-header">
+                    <span class="repeater-item-num">Testimonial #${nextIndex + 1}</span>
+                    <button type="button" class="btn-danger-icon btn-remove-repeater" title="Delete Testimonial">✕</button>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 100px; gap: 1rem; margin-bottom: 0.75rem;">
+                    <div class="form-group">
+                        <label>Customer Name</label>
+                        <input type="text" name="testimonials[${nextIndex}][name]" class="form-control" placeholder="e.g. Client Name">
+                    </div>
+                    <div class="form-group">
+                        <label>Designation / Company</label>
+                        <input type="text" name="testimonials[${nextIndex}][role]" class="form-control" placeholder="e.g. Interior Designer, London">
+                    </div>
+                    <div class="form-group">
+                        <label>Rating</label>
+                        <select name="testimonials[${nextIndex}][rating]" class="form-control">
+                            <option value="5" selected>5 ★</option>
+                            <option value="4">4 ★</option>
+                            <option value="3">3 ★</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Testimonial Text</label>
+                    <textarea name="testimonials[${nextIndex}][text]" class="form-control" rows="2" placeholder="Write testimonial feedback..."></textarea>
+                </div>
+            `;
+            testimonialsList.appendChild(newCard);
+            attachRepeaterRemover(newCard);
+        });
+    }
+
+    // 7. FAQ Toggle & Repeater
+    const toggleFaq = document.getElementById('toggleFaq');
+    const faqContainer = document.getElementById('faqContainer');
+    const faqList = document.getElementById('faqList');
+    const btnAddFaq = document.getElementById('btnAddFaq');
+
+    if (toggleFaq && faqContainer) {
+        toggleFaq.addEventListener('change', () => {
+            faqContainer.style.display = toggleFaq.checked ? 'block' : 'none';
+        });
+    }
+
+    if (btnAddFaq && faqList) {
+        btnAddFaq.addEventListener('click', () => {
+            const nextIndex = faqList.querySelectorAll('.repeater-item-card').length;
+            const newCard = document.createElement('div');
+            newCard.className = 'repeater-item-card';
+            newCard.setAttribute('data-index', nextIndex);
+            newCard.innerHTML = `
+                <div class="repeater-item-header">
+                    <span class="repeater-item-num">Question #${nextIndex + 1}</span>
+                    <button type="button" class="btn-danger-icon btn-remove-repeater" title="Delete FAQ">✕</button>
+                </div>
+                <div class="form-group" style="margin-bottom: 0.75rem;">
+                    <label>Question</label>
+                    <input type="text" name="faqs[${nextIndex}][question]" class="form-control" placeholder="e.g. Do you provide custom cut sizes?">
+                </div>
+                <div class="form-group">
+                    <label>Answer</label>
+                    <textarea name="faqs[${nextIndex}][answer]" class="form-control" rows="2" placeholder="Provide answer details..."></textarea>
+                </div>
+            `;
+            faqList.appendChild(newCard);
+            attachRepeaterRemover(newCard);
+        });
+    }
+
+    function attachRepeaterRemover(card) {
+        const btn = card.querySelector('.btn-remove-repeater');
+        if (btn) {
+            btn.addEventListener('click', () => {
+                card.remove();
+            });
+        }
+    }
+
+    document.querySelectorAll('.btn-remove-repeater').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = e.target.closest('.repeater-item-card');
+            if (card) card.remove();
+        });
+    });
+}
+
 
 
