@@ -1202,9 +1202,12 @@ svg {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 20px 16px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   opacity: 0;
   visibility: hidden;
-  transition: var(--transition-fast);
+  transition: opacity var(--transition-fast), visibility var(--transition-fast);
 }
 
 .modal-overlay.active {
@@ -1214,29 +1217,125 @@ svg {
 
 .modal-card {
   background: #ffffff;
-  max-width: 540px;
-  width: 90%;
+  max-width: 560px;
+  width: 100%;
+  max-height: calc(100vh - 40px);
+  max-height: calc(100dvh - 40px);
   border-radius: var(--radius-lg);
-  padding: 36px;
   position: relative;
-  box-shadow: var(--shadow-lg);
-  transform: translateY(20px);
-  transition: var(--transition-fast);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  overflow: hidden;
+  box-sizing: border-box;
+  transform: translateY(20px) scale(0.98);
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
 }
 
 .modal-overlay.active .modal-card {
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
+}
+
+.modal-header {
+  padding: 20px 26px 14px 26px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee7db;
+  flex-shrink: 0;
+  background: #ffffff;
 }
 
 .modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
+  background: #f7f4ee;
+  border: 1px solid #e5dccf;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   color: var(--color-text-muted);
+  transition: var(--transition-fast);
+  margin-left: 12px;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.modal-close:hover {
+  background: #ebe4d8;
+  color: var(--color-text-dark);
+}
+
+.modal-body {
+  padding: 16px 26px 22px 26px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.16);
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.modal-card .form-group {
+  margin-bottom: 12px;
+}
+
+.modal-card .modal-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  display: block;
+  color: var(--color-text-dark);
+}
+
+.modal-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal-grid-2-custom {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 12px;
+}
+
+.modal-card .form-input,
+.modal-card .form-select {
+  padding: 9px 13px;
+  font-size: 0.9rem;
+}
+
+.modal-card .modal-textarea {
+  min-height: 64px;
+  height: 68px;
+  padding: 9px 13px;
+  font-size: 0.9rem;
+  resize: vertical;
+}
+
+.modal-actions {
+  margin-top: 14px;
 }
 
 /* Presentation / Showcase Page View */
@@ -3988,10 +4087,24 @@ svg {
 
   /* Modal */
   .modal-card {
-    padding: 24px 18px;
-    width: 94%;
-    max-height: 90vh;
-    overflow-y: auto;
+    width: 96%;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    border-radius: var(--radius-md);
+  }
+
+  .modal-header {
+    padding: 16px 18px 12px 18px;
+  }
+
+  .modal-body {
+    padding: 14px 18px 20px 18px;
+  }
+
+  .modal-grid-2,
+  .modal-grid-2-custom {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .form-card {

@@ -104,27 +104,41 @@ function initQuoteModal() {
 
     if (!modal) return;
 
+    function openModal(product) {
+        const selectEl = modal.querySelector('select[name="product"]');
+        if (selectEl && product) {
+            selectEl.value = product;
+        }
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
     openBtns.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
             const product = btn.getAttribute('data-product') || '';
-            const selectEl = modal.querySelector('select[name="product"]');
-            if (selectEl && product) {
-                selectEl.value = product;
-            }
-            modal.classList.add('active');
+            openModal(product);
         });
     });
 
     if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
+        closeBtn.addEventListener('click', closeModal);
     }
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
-            modal.classList.remove('active');
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
         }
     });
 }
@@ -173,7 +187,11 @@ function initAjaxForms() {
             const success = await handleFormSubmit(quoteForm, '/api/quote');
             if (success) {
                 setTimeout(() => {
-                    document.getElementById('quoteModal')?.classList.remove('active');
+                    const modalEl = document.getElementById('quoteModal');
+                    if (modalEl) {
+                        modalEl.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
                 }, 1500);
             }
         });
