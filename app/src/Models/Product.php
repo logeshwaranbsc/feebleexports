@@ -11,10 +11,7 @@ class Product
     public static function getAll(): array
     {
         if (Database::isConnected()) {
-            $dbProducts = Database::fetchAll("SELECT * FROM products ORDER BY name ASC");
-            if (!empty($dbProducts)) {
-                return $dbProducts;
-            }
+            return Database::fetchAll("SELECT * FROM products ORDER BY name ASC") ?? [];
         }
 
         $dir = dirname(self::$storagePath);
@@ -29,12 +26,6 @@ class Product
         }
 
         $products = json_decode(file_get_contents(self::$storagePath), true);
-        if (empty($products)) {
-            $defaults = self::getDefaultProducts();
-            file_put_contents(self::$storagePath, json_encode($defaults, JSON_PRETTY_PRINT));
-            return $defaults;
-        }
-
         return is_array($products) ? $products : [];
     }
 
@@ -224,6 +215,55 @@ class Product
         $filtered = array_values(array_filter($products, fn($p) => $p['id'] !== $id));
         file_put_contents(self::$storagePath, json_encode($filtered, JSON_PRETTY_PRINT));
         return true;
+    }
+
+    public static function deleteAll(): bool
+    {
+        if (Database::isConnected()) {
+            return Database::execute("DELETE FROM products");
+        }
+
+        $dir = dirname(self::$storagePath);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        file_put_contents(self::$storagePath, json_encode([], JSON_PRETTY_PRINT));
+        return true;
+    }
+
+    public static function deleteMultiple(array $ids): int
+    {
+        if (empty($ids)) {
+            return 0;
+        }
+
+        if (Database::isConnected()) {
+            $placeholders = implode(',', array_fill(0, count($ids), '?'));
+            Database::execute("DELETE FROM products WHERE id IN ($placeholders)", $ids);
+            return count($ids);
+        }
+
+        $products = self::getAll();
+        $before = count($products);
+        $filtered = array_values(array_filter($products, fn($p) => !in_array($p['id'], $ids, true)));
+        file_put_contents(self::$storagePath, json_encode($filtered, JSON_PRETTY_PRINT));
+        return $before - count($filtered);
+    }
+
+    public static function resetDefaults(): array
+    {
+        $defaults = self::getDefaultProducts();
+        if (Database::isConnected()) {
+            Database::execute("DELETE FROM products");
+            foreach ($defaults as $p) {
+                self::save($p);
+            }
+            return $defaults;
+        }
+
+        file_put_contents(self::$storagePath, json_encode($defaults, JSON_PRETTY_PRINT));
+        return $defaults;
     }
 
     private static function validate(array $data): array

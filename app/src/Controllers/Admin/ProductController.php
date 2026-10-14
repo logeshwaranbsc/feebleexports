@@ -126,4 +126,47 @@ class ProductController
 
         Response::redirect('/admin/products');
     }
+
+    public function deleteAll(): void
+    {
+        Auth::requireAdmin();
+
+        Product::deleteAll();
+        Auth::startSession();
+        $_SESSION['flash_success'] = 'All products have been deleted successfully.';
+
+        Response::redirect('/admin/products');
+    }
+
+    public function bulkDelete(): void
+    {
+        Auth::requireAdmin();
+
+        $ids = $_POST['selected_ids'] ?? [];
+        if (!is_array($ids)) {
+            $ids = [];
+        }
+
+        if (!empty($ids)) {
+            $count = Product::deleteMultiple($ids);
+            Auth::startSession();
+            $_SESSION['flash_success'] = "{$count} product(s) deleted successfully.";
+        } else {
+            Auth::startSession();
+            $_SESSION['flash_success'] = 'No products were selected for deletion.';
+        }
+
+        Response::redirect('/admin/products');
+    }
+
+    public function resetDefaults(): void
+    {
+        Auth::requireAdmin();
+
+        Product::resetDefaults();
+        Auth::startSession();
+        $_SESSION['flash_success'] = 'Sample default products catalog restored successfully.';
+
+        Response::redirect('/admin/products');
+    }
 }

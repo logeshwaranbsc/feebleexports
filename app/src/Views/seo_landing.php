@@ -88,7 +88,7 @@ $faqs = $page['faqs'] ?? [];
               <input type="email" id="lead_email" name="email" required placeholder="john@company.com">
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div class="seo-form-grid-2">
               <div class="seo-form-field">
                 <label for="lead_phone">Phone / WhatsApp</label>
                 <input type="tel" id="lead_phone" name="phone" placeholder="+1 234 567 8900">

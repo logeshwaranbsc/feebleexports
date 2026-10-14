@@ -11,10 +11,7 @@ class Blog
     public static function getAll(): array
     {
         if (Database::isConnected()) {
-            $dbBlogs = Database::fetchAll("SELECT * FROM blogs ORDER BY created_at DESC");
-            if (!empty($dbBlogs)) {
-                return $dbBlogs;
-            }
+            return Database::fetchAll("SELECT * FROM blogs ORDER BY created_at DESC") ?? [];
         }
 
         $dir = dirname(self::$storagePath);

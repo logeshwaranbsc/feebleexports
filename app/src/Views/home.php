@@ -115,9 +115,9 @@
 <section class="section-padding bg-cream" style="position: relative; overflow: hidden;">
   <div class="container grid-2-col" style="align-items: center;">
     
-    <!-- Left Column: Raw Coconut Coir Image with Faded Right Edge (2nd Image Style) -->
-    <div style="position: relative; overflow: hidden; height: 100%; width: 100%;">
-      <img src="/assets/images/coconutcoir.png" alt="Raw Coconut Fibre and Shell" style="width: 100%; height: auto; max-height: 540px; object-fit: cover; display: block; -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to right, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 100%);">
+    <!-- Left Column: Raw Coconut Coir Image with Faded Right Edge (Responsive) -->
+    <div class="home-feature-img-box">
+      <img src="/assets/images/coconutcoir.png" alt="Raw Coconut Fibre and Shell" class="home-feature-masked-img">
     </div>
 
     <!-- Right Column: Content -->
@@ -136,7 +136,7 @@
       </p>
 
       <!-- 3 Feature Columns -->
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px;">
+      <div class="home-feature-pillars-grid">
         <div style="text-align: left;">
           <div style="font-size: 1.4rem; margin-bottom: 6px;">🍃</div>
           <h4 style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-dark); margin-bottom: 2px;">Natural Material</h4>
@@ -292,9 +292,9 @@
 <section class="section-padding bg-cream" style="position: relative; overflow: hidden;">
   <div class="container grid-2-col" style="align-items: stretch;">
     
-    <!-- Left Column: Stack Image with Faded Right Edge -->
-    <div style="position: relative; overflow: hidden; border-radius: 16px; height: 100%; min-height: 400px; display: flex;">
-      <img src="/assets/images/ColourMatts.png" alt="Custom Colours and Stacked Coir Mats" style="width: 100%; height: 100%; object-fit: cover; display: block; -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to right, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);">
+    <!-- Left Column: Stack Image with Faded Right Edge (Responsive) -->
+    <div class="home-custom-img-box">
+      <img src="/assets/images/ColourMatts.png" alt="Custom Colours and Stacked Coir Mats" class="home-custom-masked-img">
     </div>
 
     <!-- Right Column: Content -->
@@ -306,7 +306,7 @@
       </p>
 
       <!-- 3 Customization Spec Cards Horizontal Grid -->
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;">
+      <div class="home-custom-specs-grid">
         <div class="custom-spec-item" style="padding: 14px 10px; flex-direction: column; text-align: left;">
           <div class="custom-spec-icon" style="width: 34px; height: 34px; font-size: 0.9rem; margin-bottom: 6px;">✏️</div>
           <div>

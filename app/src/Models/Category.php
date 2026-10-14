@@ -11,10 +11,7 @@ class Category
     public static function getAll(): array
     {
         if (Database::isConnected()) {
-            $dbCategories = Database::fetchAll("SELECT * FROM categories ORDER BY display_order ASC, name ASC");
-            if (!empty($dbCategories)) {
-                return $dbCategories;
-            }
+            return Database::fetchAll("SELECT * FROM categories ORDER BY display_order ASC, name ASC") ?? [];
         }
 
         $dir = dirname(self::$storagePath);
@@ -29,10 +26,8 @@ class Category
         }
 
         $categories = json_decode(file_get_contents(self::$storagePath), true);
-        if (empty($categories)) {
-            $defaults = self::getDefaultCategories();
-            file_put_contents(self::$storagePath, json_encode($defaults, JSON_PRETTY_PRINT));
-            return $defaults;
+        if (!is_array($categories)) {
+            return [];
         }
 
         usort($categories, function ($a, $b) {

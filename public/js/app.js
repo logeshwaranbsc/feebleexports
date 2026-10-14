@@ -111,6 +111,12 @@ function initQuoteModal() {
         }
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+
+        // Close mobile navbar capsule if open
+        const mobileToggle = document.getElementById('mobileNavToggle');
+        const navCapsule = document.getElementById('navCapsule');
+        if (mobileToggle) mobileToggle.classList.remove('is-active');
+        if (navCapsule) navCapsule.classList.remove('open');
     }
 
     function closeModal() {
