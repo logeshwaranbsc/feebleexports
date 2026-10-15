@@ -2,7 +2,14 @@
 
 declare(strict_types=1);
 
-// Define base paths for application
+// Return static files directly if using PHP CLI built-in web server
+if (php_sapi_name() === 'cli-server') {
+    $filePath = __DIR__ . urldecode((string)parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+    if (is_file($filePath)) {
+        return false;
+    }
+}
+
 if (!defined('BASE_PATH')) {
     $appDir = getenv('APP_PATH') ?: ($_ENV['APP_PATH'] ?? null);
     if (!$appDir) {

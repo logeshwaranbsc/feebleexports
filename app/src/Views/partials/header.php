@@ -6,13 +6,9 @@ $currentPage = $currentPage ?? 'home';
   <nav class="navbar floating-navbar" id="mainNavbar">
     <div class="navbar-glass-card">
       <!-- Brand Logo -->
-      <a href="/home" class="brand-logo">
+      <a href="/home" class="brand-logo" aria-label="FEEBLE EXPORTS">
         <div class="logo-wrapper">
           <img src="/assets/images/Feeble%20Logo.png" alt="FEEBLE EXPORTS" class="logo-img">
-        </div>
-        <div class="brand-text">
-          <span class="brand-name">FEEBLE EXPORTS</span>
-          <span class="brand-tagline">Not a Big Deal</span>
         </div>
       </a>
 

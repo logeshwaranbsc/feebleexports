@@ -7,12 +7,8 @@
         
         <!-- Column 1: Brand & Overview -->
         <div class="footer-col footer-col-brand">
-          <a href="/home" class="footer-brand-logo">
+          <a href="/home" class="footer-brand-logo" aria-label="FEEBLE EXPORTS">
             <img src="/assets/images/Feeble%20Logo.png" alt="FEEBLE EXPORTS" class="footer-logo-img">
-            <div class="footer-brand-text">
-              <span class="footer-brand-name">FEEBLE EXPORTS</span>
-              <span class="footer-brand-tagline">Not a Big Deal</span>
-            </div>
           </a>
           <p class="footer-brand-desc">
             Sourcing quality coconut husks and crafting sustainable, durable natural coir mats for homes, commercial entryways, and global export markets.

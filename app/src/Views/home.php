@@ -93,132 +93,108 @@
       <!-- Group 1 -->
       <div class="features-marquee-group">
         <div class="feature-item">
-          <div class="feature-icon-box">🌱</div>
-          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+          <span class="feature-text">100% Natural Coir Fibre</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🍃</div>
-          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+          <span class="feature-text">Eco-Friendly &amp; Biodegradable</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">💎</div>
-          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+          <span class="feature-text">Durable &amp; Long Lasting</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🌐</div>
-          <div class="feature-text">Global<br>Supply</div>
+          <span class="feature-text">Global Supply</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🎨</div>
-          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+          <span class="feature-text">Custom Sizes &amp; Designs</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🛡️</div>
-          <div class="feature-text">Export Quality<br>Assurance</div>
+          <span class="feature-text">Export Quality Assurance</span>
         </div>
       </div>
 
       <!-- Group 2 (Duplicate for seamless infinite loop) -->
       <div class="features-marquee-group" aria-hidden="true">
         <div class="feature-item">
-          <div class="feature-icon-box">🌱</div>
-          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+          <span class="feature-text">100% Natural Coir Fibre</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🍃</div>
-          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+          <span class="feature-text">Eco-Friendly &amp; Biodegradable</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">💎</div>
-          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+          <span class="feature-text">Durable &amp; Long Lasting</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🌐</div>
-          <div class="feature-text">Global<br>Supply</div>
+          <span class="feature-text">Global Supply</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🎨</div>
-          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+          <span class="feature-text">Custom Sizes &amp; Designs</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🛡️</div>
-          <div class="feature-text">Export Quality<br>Assurance</div>
+          <span class="feature-text">Export Quality Assurance</span>
         </div>
       </div>
 
       <!-- Group 3 (Buffer for ultrawide screens) -->
       <div class="features-marquee-group" aria-hidden="true">
         <div class="feature-item">
-          <div class="feature-icon-box">🌱</div>
-          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+          <span class="feature-text">100% Natural Coir Fibre</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🍃</div>
-          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+          <span class="feature-text">Eco-Friendly &amp; Biodegradable</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">💎</div>
-          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+          <span class="feature-text">Durable &amp; Long Lasting</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🌐</div>
-          <div class="feature-text">Global<br>Supply</div>
+          <span class="feature-text">Global Supply</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🎨</div>
-          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+          <span class="feature-text">Custom Sizes &amp; Designs</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🛡️</div>
-          <div class="feature-text">Export Quality<br>Assurance</div>
+          <span class="feature-text">Export Quality Assurance</span>
         </div>
       </div>
 
       <!-- Group 4 (Buffer for ultrawide screens) -->
       <div class="features-marquee-group" aria-hidden="true">
         <div class="feature-item">
-          <div class="feature-icon-box">🌱</div>
-          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+          <span class="feature-text">100% Natural Coir Fibre</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🍃</div>
-          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+          <span class="feature-text">Eco-Friendly &amp; Biodegradable</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">💎</div>
-          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+          <span class="feature-text">Durable &amp; Long Lasting</span>
         </div>
         
         <div class="feature-item">
-          <div class="feature-icon-box">🌐</div>
-          <div class="feature-text">Global<br>Supply</div>
+          <span class="feature-text">Global Supply</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🎨</div>
-          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+          <span class="feature-text">Custom Sizes &amp; Designs</span>
         </div>
 
         <div class="feature-item">
-          <div class="feature-icon-box">🛡️</div>
-          <div class="feature-text">Export Quality<br>Assurance</div>
+          <span class="feature-text">Export Quality Assurance</span>
         </div>
       </div>
     </div>
