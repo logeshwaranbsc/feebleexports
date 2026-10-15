@@ -110,6 +110,10 @@ $faqs = $page['faqs'] ?? [];
               <textarea id="lead_notes" name="notes" rows="2" placeholder="e.g. 500 pcs, 45x75 cm, custom logo..."></textarea>
             </div>
 
+            <div class="seo-form-field recaptcha-form-group">
+              <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars(\App\Services\RecaptchaService::getSiteKey()) ?>"></div>
+            </div>
+
             <button type="submit" class="btn-primary w-full" style="width: 100%; justify-content: center; padding: 13px; font-weight: 700;">
               Submit Inquiry &rarr;
             </button>

@@ -38,5 +38,6 @@
   <?php require BASE_PATH . '/src/Views/partials/quote_modal.php'; ?>
 
   <script src="/js/app.js"></script>
+  <script src="https://www.google.com/recaptcha/api.js?onload=initRecaptchas&render=explicit" async defer></script>
 </body>
 </html>

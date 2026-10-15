@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initProductFilters();
     initAjaxForms();
     initPresentationTabs();
+    if (window.initRecaptchas) {
+        window.initRecaptchas();
+    }
 });
 
 // Automatic Hero Section Slider (5-second auto-change)
@@ -15,8 +18,37 @@ function initHeroSlider() {
         const dots = heroSection.querySelectorAll('.hero-dot');
         const prevBtn = heroSection.querySelector('.hero-nav-btn.prev');
         const nextBtn = heroSection.querySelector('.hero-nav-btn.next');
+        const slidesWrapper = heroSection.querySelector('.hero-slides-wrapper');
 
         if (!slides.length) return;
+
+        // Auto-adapt hero slider height on mobile with guaranteed bottom clearance for slider controls
+        function updateHeroHeight() {
+            if (!slidesWrapper) return;
+            if (window.innerWidth <= 768) {
+                let maxContentHeight = 0;
+                slides.forEach(slide => {
+                    const content = slide.querySelector('.hero-content');
+                    if (content) {
+                        maxContentHeight = Math.max(maxContentHeight, content.offsetHeight || content.scrollHeight || 0);
+                    }
+                });
+                if (maxContentHeight > 0) {
+                    // Top padding (~28px) + bottom clearance (~68px) = +96px total so controls never overlap buttons
+                    slidesWrapper.style.minHeight = (maxContentHeight + 96) + 'px';
+                }
+            } else {
+                slidesWrapper.style.minHeight = '';
+            }
+        }
+
+        updateHeroHeight();
+        window.addEventListener('resize', updateHeroHeight, { passive: true });
+        window.addEventListener('load', updateHeroHeight, { passive: true });
+        window.addEventListener('orientationchange', () => setTimeout(updateHeroHeight, 200), { passive: true });
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(updateHeroHeight);
+        }
 
         let currentIndex = 0;
         let autoTimer = null;
@@ -112,6 +144,11 @@ function initQuoteModal() {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
 
+        // Re-check reCAPTCHA initialization for modal form
+        if (window.initRecaptchas) {
+            setTimeout(window.initRecaptchas, 100);
+        }
+
         // Close mobile navbar capsule if open
         const mobileToggle = document.getElementById('mobileNavToggle');
         const navCapsule = document.getElementById('navCapsule');
@@ -175,10 +212,33 @@ function initProductFilters() {
     });
 }
 
+// Google reCAPTCHA explicit rendering & management
+window.recaptchaWidgets = {};
+
+window.initRecaptchas = function() {
+    if (typeof grecaptcha === 'undefined' || !grecaptcha.render) return;
+
+    document.querySelectorAll('.g-recaptcha').forEach(el => {
+        const siteKey = el.getAttribute('data-sitekey');
+        if (siteKey && !el.dataset.widgetId && el.childNodes.length === 0) {
+            try {
+                const widgetId = grecaptcha.render(el, {
+                    'sitekey': siteKey,
+                    'theme': el.dataset.theme || 'light'
+                });
+                el.dataset.widgetId = widgetId;
+            } catch (err) {
+                // Widget may already be rendered
+            }
+        }
+    });
+};
+
 // AJAX Form Handling for Contact & Quote Forms
 function initAjaxForms() {
     const contactForm = document.getElementById('contactForm');
     const quoteForm = document.getElementById('quoteForm');
+    const seoQuoteForm = document.getElementById('seoHeroQuoteForm');
 
     if (contactForm) {
         contactForm.addEventListener('submit', async (e) => {
@@ -202,11 +262,39 @@ function initAjaxForms() {
             }
         });
     }
+
+    if (seoQuoteForm) {
+        seoQuoteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await handleFormSubmit(seoQuoteForm, '/api/quote');
+        });
+    }
 }
 
 async function handleFormSubmit(form, endpoint) {
     const submitBtn = form.querySelector('button[type="submit"]');
     const originalText = submitBtn ? submitBtn.innerHTML : '';
+
+    const recaptchaEl = form.querySelector('.g-recaptcha');
+    let recaptchaWidgetId = recaptchaEl ? recaptchaEl.dataset.widgetId : null;
+    let recaptchaToken = '';
+
+    if (recaptchaEl && typeof grecaptcha !== 'undefined') {
+        try {
+            if (recaptchaWidgetId !== null && recaptchaWidgetId !== undefined) {
+                recaptchaToken = grecaptcha.getResponse(recaptchaWidgetId);
+            } else {
+                recaptchaToken = grecaptcha.getResponse();
+            }
+        } catch (e) {
+            // Widget not yet rendered or error
+        }
+
+        if (!recaptchaToken) {
+            showToast('Please check the CAPTCHA box to confirm you are not a robot.', 'error');
+            return false;
+        }
+    }
 
     if (submitBtn) {
         submitBtn.disabled = true;
@@ -215,6 +303,9 @@ async function handleFormSubmit(form, endpoint) {
 
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
+    if (recaptchaToken) {
+        data['g-recaptcha-response'] = recaptchaToken;
+    }
 
     try {
         const response = await fetch(endpoint, {
@@ -228,12 +319,30 @@ async function handleFormSubmit(form, endpoint) {
         const result = await response.json();
 
         if (response.ok && result.success) {
-            showToast(result.message, 'success');
+            showToast(result.message || 'Submitted successfully!', 'success');
             form.reset();
+            if (recaptchaEl && typeof grecaptcha !== 'undefined') {
+                try {
+                    if (recaptchaWidgetId !== null && recaptchaWidgetId !== undefined) {
+                        grecaptcha.reset(recaptchaWidgetId);
+                    } else {
+                        grecaptcha.reset();
+                    }
+                } catch (e) {}
+            }
             return true;
         } else {
-            const msg = result.errors ? Object.values(result.errors).join(' ') : 'An error occurred. Please check input.';
+            const msg = result.errors ? Object.values(result.errors).join(' ') : (result.message || 'An error occurred. Please check input.');
             showToast(msg, 'error');
+            if (recaptchaEl && typeof grecaptcha !== 'undefined') {
+                try {
+                    if (recaptchaWidgetId !== null && recaptchaWidgetId !== undefined) {
+                        grecaptcha.reset(recaptchaWidgetId);
+                    } else {
+                        grecaptcha.reset();
+                    }
+                } catch (e) {}
+            }
             return false;
         }
     } catch (err) {

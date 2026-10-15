@@ -86,6 +86,10 @@
             <textarea name="message" class="form-textarea" placeholder="Your Message" required></textarea>
           </div>
 
+          <div class="form-group recaptcha-form-group">
+            <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars(\App\Services\RecaptchaService::getSiteKey()) ?>"></div>
+          </div>
+
           <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
             Send Message &rarr;
           </button>

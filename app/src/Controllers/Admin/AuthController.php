@@ -6,6 +6,8 @@ use App\Core\Auth;
 use App\Core\View;
 use App\Core\Response;
 
+use App\Services\RecaptchaService;
+
 class AuthController
 {
     public function showLogin(): void
@@ -24,6 +26,17 @@ class AuthController
 
     public function login(): void
     {
+        $recaptchaToken = $_POST['g-recaptcha-response'] ?? null;
+        if ($recaptchaToken !== null) {
+            $recaptchaResult = RecaptchaService::verify($recaptchaToken);
+            if (!$recaptchaResult['success']) {
+                Auth::startSession();
+                $_SESSION['login_error'] = $recaptchaResult['message'];
+                Response::redirect('/admin/login');
+                return;
+            }
+        }
+
         $identifier = $_POST['email'] ?? $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
 

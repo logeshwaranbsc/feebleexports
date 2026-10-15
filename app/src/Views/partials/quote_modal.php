@@ -66,6 +66,10 @@
           <textarea name="notes" class="form-textarea modal-textarea" rows="2" placeholder="Specify colors, backing options, logo print, or custom requirements..."></textarea>
         </div>
 
+        <div class="form-group recaptcha-form-group">
+          <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars(\App\Services\RecaptchaService::getSiteKey()) ?>"></div>
+        </div>
+
         <div class="modal-actions">
           <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">
             Submit Quote Request &rarr;

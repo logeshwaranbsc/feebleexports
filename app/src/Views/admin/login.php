@@ -35,11 +35,16 @@
                     <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
                 </div>
 
+                <div class="form-group recaptcha-form-group" style="margin: 1rem 0; display: flex; justify-content: center;">
+                    <div class="g-recaptcha" data-sitekey="<?= htmlspecialchars(\App\Services\RecaptchaService::getSiteKey()) ?>"></div>
+                </div>
+
                 <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.85rem; margin-top: 0.5rem;">
                     Sign In to Dashboard
                 </button>
             </form>
         </div>
     </div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

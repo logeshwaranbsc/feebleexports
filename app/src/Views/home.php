@@ -87,26 +87,140 @@
     </div>
   </div>
 
-  <!-- 4 Feature Badges Bottom Banner -->
-  <div class="features-bar">
-    <div class="feature-item">
-      <div class="feature-icon-box">🌱</div>
-      <div class="feature-text">100% Natural<br>Coir Fibre</div>
-    </div>
-    
-    <div class="feature-item">
-      <div class="feature-icon-box">🍃</div>
-      <div class="feature-text">Eco-Friendly &<br>Biodegradable</div>
-    </div>
-    
-    <div class="feature-item">
-      <div class="feature-icon-box">💎</div>
-      <div class="feature-text">Durable &<br>Long Lasting</div>
-    </div>
-    
-    <div class="feature-item">
-      <div class="feature-icon-box">🌐</div>
-      <div class="feature-text">Global<br>Supply</div>
+  <!-- 6 Feature Badges Bottom Banner Continuous Marquee -->
+  <div class="features-bar" aria-label="Key Brand Highlights">
+    <div class="features-marquee-track">
+      <!-- Group 1 -->
+      <div class="features-marquee-group">
+        <div class="feature-item">
+          <div class="feature-icon-box">🌱</div>
+          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🍃</div>
+          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">💎</div>
+          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🌐</div>
+          <div class="feature-text">Global<br>Supply</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🎨</div>
+          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🛡️</div>
+          <div class="feature-text">Export Quality<br>Assurance</div>
+        </div>
+      </div>
+
+      <!-- Group 2 (Duplicate for seamless infinite loop) -->
+      <div class="features-marquee-group" aria-hidden="true">
+        <div class="feature-item">
+          <div class="feature-icon-box">🌱</div>
+          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🍃</div>
+          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">💎</div>
+          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🌐</div>
+          <div class="feature-text">Global<br>Supply</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🎨</div>
+          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🛡️</div>
+          <div class="feature-text">Export Quality<br>Assurance</div>
+        </div>
+      </div>
+
+      <!-- Group 3 (Buffer for ultrawide screens) -->
+      <div class="features-marquee-group" aria-hidden="true">
+        <div class="feature-item">
+          <div class="feature-icon-box">🌱</div>
+          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🍃</div>
+          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">💎</div>
+          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🌐</div>
+          <div class="feature-text">Global<br>Supply</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🎨</div>
+          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🛡️</div>
+          <div class="feature-text">Export Quality<br>Assurance</div>
+        </div>
+      </div>
+
+      <!-- Group 4 (Buffer for ultrawide screens) -->
+      <div class="features-marquee-group" aria-hidden="true">
+        <div class="feature-item">
+          <div class="feature-icon-box">🌱</div>
+          <div class="feature-text">100% Natural<br>Coir Fibre</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🍃</div>
+          <div class="feature-text">Eco-Friendly &amp;<br>Biodegradable</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">💎</div>
+          <div class="feature-text">Durable &amp;<br>Long Lasting</div>
+        </div>
+        
+        <div class="feature-item">
+          <div class="feature-icon-box">🌐</div>
+          <div class="feature-text">Global<br>Supply</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🎨</div>
+          <div class="feature-text">Custom Sizes<br>&amp; Designs</div>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon-box">🛡️</div>
+          <div class="feature-text">Export Quality<br>Assurance</div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -144,7 +258,7 @@
         </div>
 
         <div style="text-align: left;">
-          <div style="font-size: 1.4rem; margin-bottom: 6px;">⚙️</div>
+          <div style="font-size: 1.4rem; margin-bottom: 6px;">🏠</div>
           <h4 style="font-size: 0.88rem; font-weight: 700; color: var(--color-text-dark); margin-bottom: 2px;">Made for Everyday Use</h4>
           <p style="font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.35; margin: 0;">Designed for durability and practical performance.</p>
         </div>
@@ -261,25 +375,51 @@
     <!-- 4 Circle Feature Icons Grid -->
     <div class="green-features-grid">
       <div class="green-feature-item">
-        <div class="green-icon-circle">🍃</div>
+        <div class="green-icon-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+          </svg>
+        </div>
         <h4 class="green-feature-title">Renewable Resource</h4>
         <p class="green-feature-desc">Derived from naturally available coconut husks.</p>
       </div>
 
       <div class="green-feature-item">
-        <div class="green-icon-circle">♻️</div>
+        <div class="green-icon-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"></path>
+            <path d="M11 19h8.2a1.8 1.8 0 0 0 1.565-.89 1.78 1.78 0 0 0 .015-1.78L17 10"></path>
+            <path d="m11 19 3-6"></path>
+            <path d="m2 9.5 3-5.5h4"></path>
+            <path d="m16 9.5 3 5.5"></path>
+            <path d="m9.5 5.5 2.5-3.5 4.8 8.4"></path>
+          </svg>
+        </div>
         <h4 class="green-feature-title">Biodegradable</h4>
         <p class="green-feature-desc">A natural fibre that can return to the environment.</p>
       </div>
 
       <div class="green-feature-item">
-        <div class="green-icon-circle">🛡️</div>
+        <div class="green-icon-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+        </div>
         <h4 class="green-feature-title">Naturally Strong</h4>
         <p class="green-feature-desc">Known for its toughness and durability.</p>
       </div>
 
       <div class="green-feature-item">
-        <div class="green-icon-circle">🌱</div>
+        <div class="green-icon-circle">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 20v-8"></path>
+            <path d="M6 20h12"></path>
+            <path d="M12 12c-2.5-3-6-3-6-3s0 5 3.5 5.5c1 .1 2-.5 2.5-2.5z"></path>
+            <path d="M12 12c2.5-3 6-3 6-3s0 5-3.5 5.5c-1 .1-2-.5-2.5-2.5z"></path>
+          </svg>
+        </div>
         <h4 class="green-feature-title">Sustainable Living</h4>
         <p class="green-feature-desc">A simple natural choice for everyday spaces.</p>
       </div>
