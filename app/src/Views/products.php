@@ -187,34 +187,28 @@ if (!in_array($selectedCurrency, ['INR', 'USD', 'GBP'], true)) {
   .products-toolbar {
     flex-direction: column !important;
     align-items: stretch !important;
-    gap: 12px !important;
+    gap: 14px !important;
     padding: 12px !important;
     margin-bottom: 22px !important;
-    overflow: hidden !important;
+    overflow: visible !important;
   }
 
-  /* Smooth horizontal swipe for category pills */
+  /* All categories fully visible on mobile via clean responsive wrapping */
   .filter-tabs {
-    flex-wrap: nowrap !important;
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    scrollbar-width: none !important;
-    -ms-overflow-style: none !important;
-    gap: 8px !important;
-    padding: 2px 2px 6px 2px !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    gap: 7px !important;
+    padding: 0 !important;
     width: 100% !important;
-  }
-  .filter-tabs::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
   }
 
   .filter-btn {
     flex-shrink: 0 !important;
-    padding: 7px 15px !important;
-    font-size: 0.82rem !important;
+    padding: 6px 13px !important;
+    font-size: 0.81rem !important;
     white-space: nowrap !important;
+    min-height: 34px !important;
   }
 
   /* Full width sleek currency card on mobile */
@@ -250,6 +244,7 @@ if (!in_array($selectedCurrency, ['INR', 'USD', 'GBP'], true)) {
     padding: 6px 8px !important;
     font-size: 0.78rem !important;
     gap: 3px !important;
+    white-space: nowrap !important;
   }
   .currency-toggle-btn .curr-symbol {
     font-size: 0.84rem !important;
@@ -261,30 +256,34 @@ if (!in_array($selectedCurrency, ['INR', 'USD', 'GBP'], true)) {
 
 @media (max-width: 480px) {
   .products-section {
-    padding: 40px 14px !important;
+    padding: 36px 12px !important;
   }
 
   .products-header-desc {
-    font-size: 0.92rem !important;
-    margin-bottom: 20px !important;
+    font-size: 0.90rem !important;
+    margin-bottom: 18px !important;
   }
 
   .products-toolbar {
-    padding: 10px !important;
+    padding: 10px 10px 12px 10px !important;
     border-radius: 14px !important;
-    gap: 10px !important;
-    margin-bottom: 20px !important;
+    gap: 12px !important;
+    margin-bottom: 18px !important;
   }
 
   .filter-tabs {
+    display: flex !important;
+    flex-wrap: wrap !important;
     gap: 6px !important;
-    padding-bottom: 4px !important;
+    width: 100% !important;
+    overflow: visible !important;
   }
 
   .filter-btn {
-    padding: 6px 12px !important;
-    font-size: 0.78rem !important;
-    min-height: 32px !important;
+    padding: 5px 11px !important;
+    font-size: 0.77rem !important;
+    min-height: 31px !important;
+    border-radius: 9999px !important;
   }
 
   .currency-selector-card {
@@ -345,6 +344,11 @@ if (!in_array($selectedCurrency, ['INR', 'USD', 'GBP'], true)) {
 }
 
 @media (max-width: 350px) {
+  .filter-btn {
+    padding: 4px 9px !important;
+    font-size: 0.74rem !important;
+    min-height: 28px !important;
+  }
   .currency-selector-label .curr-label-text {
     display: none !important;
   }

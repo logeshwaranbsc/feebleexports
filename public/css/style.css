@@ -1044,33 +1044,27 @@ svg {
   .products-toolbar {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 14px;
     padding: 12px;
     margin-bottom: 22px;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .filter-tabs {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    gap: 8px;
-    padding: 2px 2px 6px 2px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow: visible;
+    gap: 7px;
+    padding: 0;
     width: 100%;
-  }
-  .filter-tabs::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
   }
 
   .filter-btn {
     flex-shrink: 0;
-    padding: 7px 15px;
-    font-size: 0.82rem;
+    padding: 6px 13px;
+    font-size: 0.81rem;
     white-space: nowrap;
+    min-height: 34px;
   }
 
   .currency-selector-card {
@@ -1119,21 +1113,25 @@ svg {
 
 @media (max-width: 480px) {
   .products-toolbar {
-    padding: 10px;
+    padding: 10px 10px 12px 10px;
     border-radius: 14px;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 18px;
   }
 
   .filter-tabs {
+    display: flex;
+    flex-wrap: wrap;
     gap: 6px;
-    padding-bottom: 4px;
+    width: 100%;
+    overflow: visible;
   }
 
   .filter-btn {
-    padding: 6px 12px;
-    font-size: 0.78rem;
-    min-height: 32px;
+    padding: 5px 11px;
+    font-size: 0.77rem;
+    min-height: 31px;
+    border-radius: 9999px;
   }
 
   .currency-selector-card {
@@ -1172,6 +1170,11 @@ svg {
 }
 
 @media (max-width: 350px) {
+  .filter-btn {
+    padding: 4px 9px;
+    font-size: 0.74rem;
+    min-height: 28px;
+  }
   .currency-selector-label .curr-label-text {
     display: none;
   }
