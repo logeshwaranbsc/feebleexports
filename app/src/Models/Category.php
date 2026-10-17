@@ -11,6 +11,20 @@ class Category
     public static function getAll(): array
     {
         if (Database::isConnected()) {
+            $categories = Database::fetchAll("SELECT * FROM categories ORDER BY display_order ASC, name ASC") ?? [];
+            if (!empty($categories)) {
+                return $categories;
+            }
+            $defaults = self::getDefaultCategories();
+            foreach ($defaults as $c) {
+                Database::execute("INSERT INTO categories (id, name, slug, description, display_order) VALUES (:id, :name, :slug, :description, :display_order) ON CONFLICT (id) DO NOTHING", [
+                    'id' => $c['id'],
+                    'name' => $c['name'],
+                    'slug' => $c['slug'],
+                    'description' => $c['description'] ?? '',
+                    'display_order' => $c['display_order'] ?? 0
+                ]);
+            }
             return Database::fetchAll("SELECT * FROM categories ORDER BY display_order ASC, name ASC") ?? [];
         }
 

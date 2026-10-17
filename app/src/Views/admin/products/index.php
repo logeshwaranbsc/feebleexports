@@ -60,7 +60,7 @@
                         <th>Image</th>
                         <th>Product Name & ID</th>
                         <th>Category</th>
-                        <th>Price / Offer</th>
+                        <th>Pricing (₹ / $ / £)</th>
                         <th>Status</th>
                         <th>Description</th>
                         <th>Actions</th>
@@ -107,22 +107,74 @@
                                         </span>
                                     </a>
                                 </td>
-                                <td>
-                                    <?php 
-                                        $hasP = !empty($product['price']) && (float)$product['price'] > 0;
-                                        $hasO = !empty($product['offer_price']) && (float)$product['offer_price'] > 0;
-                                        $isOff = $hasO && $hasP && (float)$product['offer_price'] < (float)$product['price'];
-                                    ?>
-                                    <?php if ($isOff): ?>
-                                        <div><span style="text-decoration: line-through; color: var(--admin-text-muted); font-size: 0.8rem;">₹<?= number_format((float)$product['price'], 0) ?></span></div>
-                                        <div style="color: var(--admin-primary); font-weight: 700; font-size: 0.9rem;">₹<?= number_format((float)$product['offer_price'], 0) ?></div>
-                                    <?php elseif ($hasO): ?>
-                                        <div style="color: var(--admin-primary); font-weight: 700; font-size: 0.9rem;">₹<?= number_format((float)$product['offer_price'], 0) ?></div>
-                                    <?php elseif ($hasP): ?>
-                                        <div style="font-weight: 600; font-size: 0.9rem;">₹<?= number_format((float)$product['price'], 0) ?></div>
-                                    <?php else: ?>
-                                        <span style="color: var(--admin-text-muted); font-size: 0.8rem;">N/A</span>
-                                    <?php endif; ?>
+                                <td style="min-width: 170px;">
+                                    <div style="display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.8rem;">
+                                        <!-- INR -->
+                                        <?php 
+                                            $hasInr = !empty($product['price']) && (float)$product['price'] > 0;
+                                            $hasInrOffer = !empty($product['offer_price']) && (float)$product['offer_price'] > 0;
+                                            $isOffInr = $hasInrOffer && $hasInr && (float)$product['offer_price'] < (float)$product['price'];
+                                        ?>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; background: rgba(245, 158, 11, 0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.2);">
+                                            <span style="color: #f59e0b; font-weight: 700; font-size: 0.72rem;">₹ INR</span>
+                                            <?php if ($isOffInr): ?>
+                                                <span>
+                                                    <s style="color: var(--admin-text-muted); font-size: 0.72rem;">₹<?= number_format((float)$product['price'], 0) ?></s>
+                                                    <strong style="color: #f59e0b; font-weight: 700;">₹<?= number_format((float)$product['offer_price'], 0) ?></strong>
+                                                </span>
+                                            <?php elseif ($hasInr): ?>
+                                                <strong style="color: var(--admin-text-main);">₹<?= number_format((float)$product['price'], 0) ?></strong>
+                                            <?php elseif ($hasInrOffer): ?>
+                                                <strong style="color: #f59e0b;">₹<?= number_format((float)$product['offer_price'], 0) ?></strong>
+                                            <?php else: ?>
+                                                <span style="color: var(--admin-text-muted); font-size: 0.72rem;">—</span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <!-- USD -->
+                                        <?php 
+                                            $hasUsd = !empty($product['price_usd']) && (float)$product['price_usd'] > 0;
+                                            $hasUsdOffer = !empty($product['offer_price_usd']) && (float)$product['offer_price_usd'] > 0;
+                                            $isOffUsd = $hasUsdOffer && $hasUsd && (float)$product['offer_price_usd'] < (float)$product['price_usd'];
+                                        ?>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; background: rgba(56, 189, 248, 0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(56, 189, 248, 0.2);">
+                                            <span style="color: #38bdf8; font-weight: 700; font-size: 0.72rem;">$ USD</span>
+                                            <?php if ($isOffUsd): ?>
+                                                <span>
+                                                    <s style="color: var(--admin-text-muted); font-size: 0.72rem;">$<?= number_format((float)$product['price_usd'], 2) ?></s>
+                                                    <strong style="color: #38bdf8; font-weight: 700;">$<?= number_format((float)$product['offer_price_usd'], 2) ?></strong>
+                                                </span>
+                                            <?php elseif ($hasUsd): ?>
+                                                <strong style="color: var(--admin-text-main);">$<?= number_format((float)$product['price_usd'], 2) ?></strong>
+                                            <?php elseif ($hasUsdOffer): ?>
+                                                <strong style="color: #38bdf8;">$<?= number_format((float)$product['offer_price_usd'], 2) ?></strong>
+                                            <?php else: ?>
+                                                <span style="color: var(--admin-text-muted); font-size: 0.72rem;">—</span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <!-- GBP -->
+                                        <?php 
+                                            $hasGbp = !empty($product['price_gbp']) && (float)$product['price_gbp'] > 0;
+                                            $hasGbpOffer = !empty($product['offer_price_gbp']) && (float)$product['offer_price_gbp'] > 0;
+                                            $isOffGbp = $hasGbpOffer && $hasGbp && (float)$product['offer_price_gbp'] < (float)$product['price_gbp'];
+                                        ?>
+                                        <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; background: rgba(167, 139, 250, 0.08); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(167, 139, 250, 0.2);">
+                                            <span style="color: #a78bfa; font-weight: 700; font-size: 0.72rem;">£ GBP</span>
+                                            <?php if ($isOffGbp): ?>
+                                                <span>
+                                                    <s style="color: var(--admin-text-muted); font-size: 0.72rem;">£<?= number_format((float)$product['price_gbp'], 2) ?></s>
+                                                    <strong style="color: #a78bfa; font-weight: 700;">£<?= number_format((float)$product['offer_price_gbp'], 2) ?></strong>
+                                                </span>
+                                            <?php elseif ($hasGbp): ?>
+                                                <strong style="color: var(--admin-text-main);">£<?= number_format((float)$product['price_gbp'], 2) ?></strong>
+                                            <?php elseif ($hasGbpOffer): ?>
+                                                <strong style="color: #a78bfa;">£<?= number_format((float)$product['offer_price_gbp'], 2) ?></strong>
+                                            <?php else: ?>
+                                                <span style="color: var(--admin-text-muted); font-size: 0.72rem;">—</span>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
                                 </td>
                                 <td>
                                     <span class="badge badge-<?= ($product['status'] ?? 'active') === 'active' ? 'published' : 'draft' ?>">

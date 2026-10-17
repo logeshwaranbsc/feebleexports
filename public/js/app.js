@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initHeroSlider();
     initQuoteModal();
     initProductFilters();
+    initCurrencySwitcher();
     initAjaxForms();
     initPresentationTabs();
     if (window.initRecaptchas) {
@@ -210,6 +211,122 @@ function initProductFilters() {
             });
         });
     });
+}
+
+// Interactive Product Currency Switcher (INR, USD, GBP)
+function initCurrencySwitcher() {
+    const toggleBtns = document.querySelectorAll('.currency-toggle-btn');
+    const productCards = document.querySelectorAll('.product-card');
+
+    if (!toggleBtns.length || !productCards.length) return;
+
+    // Helper: format currency price
+    function formatPrice(amount, currency) {
+        if (amount === null || isNaN(amount) || amount <= 0) return null;
+        if (currency === 'USD') {
+            return '$' + amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else if (currency === 'GBP') {
+            return '£' + amount.toLocaleString('en-GB', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        } else {
+            // INR
+            const isRound = Math.floor(amount) === amount;
+            return '₹' + amount.toLocaleString('en-IN', {
+                minimumFractionDigits: isRound ? 0 : 2,
+                maximumFractionDigits: 2
+            });
+        }
+    }
+
+    // Function to apply currency to all product cards
+    function setCurrency(currency, isUserTriggered = false) {
+        currency = (currency || 'INR').toUpperCase();
+        if (!['INR', 'USD', 'GBP'].includes(currency)) {
+            currency = 'INR';
+        }
+
+        // Update button states
+        toggleBtns.forEach(btn => {
+            const btnCurr = (btn.getAttribute('data-currency') || '').toUpperCase();
+            const isActive = btnCurr === currency;
+            btn.classList.toggle('active', isActive);
+            btn.setAttribute('aria-checked', isActive ? 'true' : 'false');
+        });
+
+        // Save preference
+        try {
+            localStorage.setItem('feeble_currency', currency);
+            document.cookie = `feeble_currency=${currency}; path=/; max-age=31536000; SameSite=Lax`;
+        } catch (e) {
+            // Storage quota or restricted context
+        }
+
+        // Update each product card
+        productCards.forEach(card => {
+            const priceAttr = `data-price-${currency.toLowerCase()}`;
+            const offerAttr = `data-offer-${currency.toLowerCase()}`;
+
+            const rawPrice = card.getAttribute(priceAttr);
+            const rawOffer = card.getAttribute(offerAttr);
+
+            const regPrice = rawPrice !== null && rawPrice !== '' ? parseFloat(rawPrice) : null;
+            const offPrice = rawOffer !== null && rawOffer !== '' ? parseFloat(rawOffer) : null;
+
+            const hasReg = regPrice !== null && !isNaN(regPrice) && regPrice > 0;
+            const hasOff = offPrice !== null && !isNaN(offPrice) && offPrice > 0;
+            const isOfferValid = hasOff && hasReg && offPrice < regPrice;
+
+            // Update offer badge
+            const badge = card.querySelector('.product-offer-badge');
+            if (badge) {
+                badge.style.display = isOfferValid ? '' : 'none';
+            }
+
+            // Update pricing container
+            const pricingEl = card.querySelector('.product-pricing');
+            if (pricingEl) {
+                let html = '';
+                if (isOfferValid) {
+                    html = `<span class="old-price">${formatPrice(regPrice, currency)}</span> <span class="offer-price">${formatPrice(offPrice, currency)}</span>`;
+                } else if (hasOff) {
+                    html = `<span class="offer-price">${formatPrice(offPrice, currency)}</span>`;
+                } else if (hasReg) {
+                    html = `<span class="current-price">${formatPrice(regPrice, currency)}</span>`;
+                } else {
+                    html = `<span class="contact-price">Quote on Request</span>`;
+                }
+                pricingEl.innerHTML = html;
+
+                if (isUserTriggered) {
+                    pricingEl.classList.remove('price-pulse');
+                    void pricingEl.offsetWidth; // trigger reflow
+                    pricingEl.classList.add('price-pulse');
+                }
+            }
+        });
+    }
+
+    // Attach click listeners to currency buttons
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const curr = btn.getAttribute('data-currency');
+            setCurrency(curr, true);
+        });
+    });
+
+    // Check saved preference on load
+    try {
+        const savedCurrency = localStorage.getItem('feeble_currency');
+        if (savedCurrency && ['INR', 'USD', 'GBP'].includes(savedCurrency.toUpperCase())) {
+            const activeBtn = document.querySelector('.currency-toggle-btn.active');
+            const currentActive = activeBtn ? activeBtn.getAttribute('data-currency') : null;
+            if (currentActive !== savedCurrency) {
+                setCurrency(savedCurrency, false);
+            }
+        }
+    } catch (e) {
+        // ignore
+    }
 }
 
 // Google reCAPTCHA explicit rendering & management

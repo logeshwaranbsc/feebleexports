@@ -20,7 +20,7 @@
   <?php if (!empty($ogImage)): ?>
     <meta property="og:image" content="<?= htmlspecialchars($ogImage) ?>">
   <?php endif; ?>
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/style.css?v=2.3.0_<?= @filemtime(PUBLIC_PATH . '/css/style.css') ?: '20261017_2' ?>">
   <link rel="icon" type="image/png" href="/assets/images/Feeble%20Logo.png">
   <?php if (!empty($customHeadHtml)): ?>
     <?= $customHeadHtml ?>
@@ -37,7 +37,7 @@
   <?php require BASE_PATH . '/src/Views/partials/footer.php'; ?>
   <?php require BASE_PATH . '/src/Views/partials/quote_modal.php'; ?>
 
-  <script src="/js/app.js"></script>
+  <script src="/js/app.js?v=2.3.0_<?= @filemtime(PUBLIC_PATH . '/js/app.js') ?: '20261017_2' ?>"></script>
   <script src="https://www.google.com/recaptcha/api.js?onload=initRecaptchas&render=explicit" async defer></script>
 </body>
 </html>

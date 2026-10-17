@@ -69,15 +69,102 @@
             </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem;">
-            <div class="form-group">
-                <label for="price">Regular Price (₹)</label>
-                <input type="number" step="0.01" id="price" name="price" class="form-control" placeholder="e.g. 250.00" value="<?= htmlspecialchars($old['price'] ?? '') ?>">
+        <!-- Multi-Currency Pricing Section (Rupees ₹, Dollar $, Pound £) -->
+        <div class="pricing-card-section" style="margin: 1.5rem 0; padding: 1.25rem; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--admin-border); border-radius: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+                <div>
+                    <h3 style="font-size: 1rem; font-weight: 700; color: var(--admin-text-main); display: flex; align-items: center; gap: 0.5rem; margin: 0;">
+                        <span>🌐</span> Multi-Currency Pricing (Export & Domestic)
+                    </h3>
+                    <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin: 0.25rem 0 0 0;">
+                        Enter prices for Indian Rupees (₹), US Dollars ($), and British Pounds (£). Website visitors can toggle between these currencies.
+                    </p>
+                </div>
+                <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: var(--admin-primary); border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.75rem; padding: 0.3rem 0.6rem; border-radius: 6px;">
+                    3 Currencies (₹, $, £)
+                </span>
             </div>
 
-            <div class="form-group">
-                <label for="offer_price">Offer Price (₹) <span style="font-weight: normal; color: var(--admin-text-muted); font-size: 0.8rem;">(Optional - Strikes out old price)</span></label>
-                <input type="number" step="0.01" id="offer_price" name="offer_price" class="form-control" placeholder="e.g. 199.00" value="<?= htmlspecialchars($old['offer_price'] ?? '') ?>">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                
+                <!-- 1. Indian Rupee (₹ INR) -->
+                <div class="currency-pricing-box" style="background: rgba(15, 23, 42, 0.55); border: 1px solid var(--admin-border); border-radius: 8px; padding: 1rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <span style="font-size: 0.85rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 0.4rem;">
+                            <span>🇮🇳</span> Rupees (₹ INR)
+                        </span>
+                        <span style="font-size: 0.7rem; color: var(--admin-text-muted);">Domestic</span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                        <label for="price" style="font-size: 0.8rem;">Regular Price (₹)</label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--admin-text-muted); font-weight: 600;">₹</span>
+                            <input type="number" step="0.01" id="price" name="price" class="form-control" placeholder="250.00" value="<?= htmlspecialchars($old['price'] ?? '') ?>" style="padding-left: 2rem;">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="offer_price" style="font-size: 0.8rem;">Offer Price (₹) <span style="font-size: 0.72rem; color: var(--admin-text-muted);">(Optional)</span></label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--admin-text-muted); font-weight: 600;">₹</span>
+                            <input type="number" step="0.01" id="offer_price" name="offer_price" class="form-control" placeholder="199.00" value="<?= htmlspecialchars($old['offer_price'] ?? '') ?>" style="padding-left: 2rem;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. US Dollar ($ USD) -->
+                <div class="currency-pricing-box" style="background: rgba(15, 23, 42, 0.55); border: 1px solid var(--admin-border); border-radius: 8px; padding: 1rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <span style="font-size: 0.85rem; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 0.4rem;">
+                            <span>🇺🇸</span> Dollar ($ USD)
+                        </span>
+                        <span style="font-size: 0.7rem; color: var(--admin-text-muted);">Global Export</span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                        <label for="price_usd" style="font-size: 0.8rem;">Regular Price ($)</label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--admin-text-muted); font-weight: 600;">$</span>
+                            <input type="number" step="0.01" id="price_usd" name="price_usd" class="form-control" placeholder="4.50" value="<?= htmlspecialchars($old['price_usd'] ?? '') ?>" style="padding-left: 2rem;">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="offer_price_usd" style="font-size: 0.8rem;">Offer Price ($) <span style="font-size: 0.72rem; color: var(--admin-text-muted);">(Optional)</span></label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--admin-text-muted); font-weight: 600;">$</span>
+                            <input type="number" step="0.01" id="offer_price_usd" name="offer_price_usd" class="form-control" placeholder="3.50" value="<?= htmlspecialchars($old['offer_price_usd'] ?? '') ?>" style="padding-left: 2rem;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. British Pound (£ GBP) -->
+                <div class="currency-pricing-box" style="background: rgba(15, 23, 42, 0.55); border: 1px solid var(--admin-border); border-radius: 8px; padding: 1rem;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;">
+                        <span style="font-size: 0.85rem; font-weight: 700; color: #a78bfa; display: flex; align-items: center; gap: 0.4rem;">
+                            <span>🇬🇧</span> Pound (£ GBP)
+                        </span>
+                        <span style="font-size: 0.7rem; color: var(--admin-text-muted);">UK & Europe</span>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0.75rem;">
+                        <label for="price_gbp" style="font-size: 0.8rem;">Regular Price (£)</label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--admin-text-muted); font-weight: 600;">£</span>
+                            <input type="number" step="0.01" id="price_gbp" name="price_gbp" class="form-control" placeholder="3.50" value="<?= htmlspecialchars($old['price_gbp'] ?? '') ?>" style="padding-left: 2rem;">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="offer_price_gbp" style="font-size: 0.8rem;">Offer Price (£) <span style="font-size: 0.72rem; color: var(--admin-text-muted);">(Optional)</span></label>
+                        <div style="position: relative;">
+                            <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--admin-text-muted); font-weight: 600;">£</span>
+                            <input type="number" step="0.01" id="offer_price_gbp" name="offer_price_gbp" class="form-control" placeholder="2.75" value="<?= htmlspecialchars($old['offer_price_gbp'] ?? '') ?>" style="padding-left: 2rem;">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
 

@@ -8,9 +8,38 @@ class Product
 {
     private static string $storagePath = BASE_PATH . '/storage/products.json';
 
+    public static function ensureSchema(): void
+    {
+        static $schemaChecked = false;
+        if ($schemaChecked || !Database::isConnected()) {
+            return;
+        }
+        $schemaChecked = true;
+        try {
+            Database::execute("ALTER TABLE products ADD COLUMN IF NOT EXISTS price_usd NUMERIC(10,2) DEFAULT NULL");
+            Database::execute("ALTER TABLE products ADD COLUMN IF NOT EXISTS offer_price_usd NUMERIC(10,2) DEFAULT NULL");
+            Database::execute("ALTER TABLE products ADD COLUMN IF NOT EXISTS price_gbp NUMERIC(10,2) DEFAULT NULL");
+            Database::execute("ALTER TABLE products ADD COLUMN IF NOT EXISTS offer_price_gbp NUMERIC(10,2) DEFAULT NULL");
+        } catch (\Throwable $e) {
+            // Table already migrated or permissions managed
+        }
+    }
+
     public static function getAll(): array
     {
+        self::ensureSchema();
+
         if (Database::isConnected()) {
+            $products = Database::fetchAll("SELECT * FROM products ORDER BY name ASC") ?? [];
+            if (!empty($products)) {
+                return $products;
+            }
+            // Auto-populate default catalog if database table is empty
+            Category::getAll(); // ensure categories exist first
+            $defaults = self::getDefaultProducts();
+            foreach ($defaults as $p) {
+                self::save($p);
+            }
             return Database::fetchAll("SELECT * FROM products ORDER BY name ASC") ?? [];
         }
 
@@ -31,6 +60,8 @@ class Product
 
     public static function getById(string $id): ?array
     {
+        self::ensureSchema();
+
         if (Database::isConnected()) {
             $product = Database::fetch("SELECT * FROM products WHERE id = :id", ['id' => $id]);
             if ($product) {
@@ -48,14 +79,27 @@ class Product
 
     public static function save(array $data): array
     {
+        self::ensureSchema();
+
         $errors = self::validate($data);
         if (!empty($errors)) {
             return ['success' => false, 'errors' => $errors];
         }
 
         $id = !empty($data['id']) ? Blog::slugify($data['id']) : Blog::slugify($data['name']);
-        $price = isset($data['price']) && $data['price'] !== '' ? (float)$data['price'] : null;
-        $offerPrice = isset($data['offer_price']) && $data['offer_price'] !== '' ? (float)$data['offer_price'] : null;
+        
+        // Multi-currency pricing
+        // 1. Rupees (INR)
+        $price = isset($data['price']) && $data['price'] !== '' ? (float)$data['price'] : (isset($data['price_inr']) && $data['price_inr'] !== '' ? (float)$data['price_inr'] : null);
+        $offerPrice = isset($data['offer_price']) && $data['offer_price'] !== '' ? (float)$data['offer_price'] : (isset($data['offer_price_inr']) && $data['offer_price_inr'] !== '' ? (float)$data['offer_price_inr'] : null);
+
+        // 2. US Dollars (USD)
+        $priceUsd = isset($data['price_usd']) && $data['price_usd'] !== '' ? (float)$data['price_usd'] : null;
+        $offerPriceUsd = isset($data['offer_price_usd']) && $data['offer_price_usd'] !== '' ? (float)$data['offer_price_usd'] : null;
+
+        // 3. British Pounds (GBP)
+        $priceGbp = isset($data['price_gbp']) && $data['price_gbp'] !== '' ? (float)$data['price_gbp'] : null;
+        $offerPriceGbp = isset($data['offer_price_gbp']) && $data['offer_price_gbp'] !== '' ? (float)$data['offer_price_gbp'] : null;
 
         // Resolve mapped Category
         [$categoryName, $categorySlug, $categoryId] = self::resolveCategory($data);
@@ -66,7 +110,13 @@ class Product
                 return ['success' => false, 'errors' => ['id' => 'Product ID/Slug already exists. Please choose a unique identifier.']];
             }
 
-            $sql = "INSERT INTO products (id, name, category, category_slug, category_id, image, description, price, offer_price, status) VALUES (:id, :name, :category, :category_slug, :category_id, :image, :description, :price, :offer_price, :status)";
+            $sql = "INSERT INTO products (
+                id, name, category, category_slug, category_id, image, description,
+                price, offer_price, price_usd, offer_price_usd, price_gbp, offer_price_gbp, status
+            ) VALUES (
+                :id, :name, :category, :category_slug, :category_id, :image, :description,
+                :price, :offer_price, :price_usd, :offer_price_usd, :price_gbp, :offer_price_gbp, :status
+            )";
             Database::execute($sql, [
                 'id' => $id,
                 'name' => htmlspecialchars(trim($data['name'])),
@@ -77,6 +127,10 @@ class Product
                 'description' => htmlspecialchars(trim($data['description'] ?? '')),
                 'price' => $price,
                 'offer_price' => $offerPrice,
+                'price_usd' => $priceUsd,
+                'offer_price_usd' => $offerPriceUsd,
+                'price_gbp' => $priceGbp,
+                'offer_price_gbp' => $offerPriceGbp,
                 'status' => $data['status'] ?? 'active'
             ]);
 
@@ -100,6 +154,10 @@ class Product
             'description' => htmlspecialchars(trim($data['description'] ?? '')),
             'price' => $price,
             'offer_price' => $offerPrice,
+            'price_usd' => $priceUsd,
+            'offer_price_usd' => $offerPriceUsd,
+            'price_gbp' => $priceGbp,
+            'offer_price_gbp' => $offerPriceGbp,
             'status' => $data['status'] ?? 'active',
             'created_at' => date('Y-m-d H:i:s')
         ];
@@ -112,19 +170,47 @@ class Product
 
     public static function update(string $id, array $data): array
     {
+        self::ensureSchema();
+
         $errors = self::validate($data);
         if (!empty($errors)) {
             return ['success' => false, 'errors' => $errors];
         }
 
-        $price = isset($data['price']) && $data['price'] !== '' ? (float)$data['price'] : null;
-        $offerPrice = isset($data['offer_price']) && $data['offer_price'] !== '' ? (float)$data['offer_price'] : null;
+        // Multi-currency pricing
+        // 1. Rupees (INR)
+        $price = isset($data['price']) && $data['price'] !== '' ? (float)$data['price'] : (isset($data['price_inr']) && $data['price_inr'] !== '' ? (float)$data['price_inr'] : null);
+        $offerPrice = isset($data['offer_price']) && $data['offer_price'] !== '' ? (float)$data['offer_price'] : (isset($data['offer_price_inr']) && $data['offer_price_inr'] !== '' ? (float)$data['offer_price_inr'] : null);
+
+        // 2. US Dollars (USD)
+        $priceUsd = isset($data['price_usd']) && $data['price_usd'] !== '' ? (float)$data['price_usd'] : null;
+        $offerPriceUsd = isset($data['offer_price_usd']) && $data['offer_price_usd'] !== '' ? (float)$data['offer_price_usd'] : null;
+
+        // 3. British Pounds (GBP)
+        $priceGbp = isset($data['price_gbp']) && $data['price_gbp'] !== '' ? (float)$data['price_gbp'] : null;
+        $offerPriceGbp = isset($data['offer_price_gbp']) && $data['offer_price_gbp'] !== '' ? (float)$data['offer_price_gbp'] : null;
 
         // Resolve mapped Category
         [$categoryName, $categorySlug, $categoryId] = self::resolveCategory($data);
 
         if (Database::isConnected()) {
-            $sql = "UPDATE products SET name = :name, category = :category, category_slug = :category_slug, category_id = :category_id, image = :image, description = :description, price = :price, offer_price = :offer_price, status = :status, updated_at = NOW() WHERE id = :id";
+            $sql = "UPDATE products SET 
+                name = :name, 
+                category = :category, 
+                category_slug = :category_slug, 
+                category_id = :category_id, 
+                image = :image, 
+                description = :description, 
+                price = :price, 
+                offer_price = :offer_price, 
+                price_usd = :price_usd, 
+                offer_price_usd = :offer_price_usd, 
+                price_gbp = :price_gbp, 
+                offer_price_gbp = :offer_price_gbp, 
+                status = :status, 
+                updated_at = NOW() 
+            WHERE id = :id";
+
             Database::execute($sql, [
                 'id' => $id,
                 'name' => htmlspecialchars(trim($data['name'])),
@@ -135,6 +221,10 @@ class Product
                 'description' => htmlspecialchars(trim($data['description'] ?? '')),
                 'price' => $price,
                 'offer_price' => $offerPrice,
+                'price_usd' => $priceUsd,
+                'offer_price_usd' => $offerPriceUsd,
+                'price_gbp' => $priceGbp,
+                'offer_price_gbp' => $offerPriceGbp,
                 'status' => $data['status'] ?? 'active'
             ]);
             return ['success' => true];
@@ -156,6 +246,10 @@ class Product
                 $product['description'] = htmlspecialchars(trim($data['description'] ?? ''));
                 $product['price'] = $price;
                 $product['offer_price'] = $offerPrice;
+                $product['price_usd'] = $priceUsd;
+                $product['offer_price_usd'] = $offerPriceUsd;
+                $product['price_gbp'] = $priceGbp;
+                $product['offer_price_gbp'] = $offerPriceGbp;
                 $product['status'] = $data['status'] ?? 'active';
                 $product['updated_at'] = date('Y-m-d H:i:s');
 
@@ -318,6 +412,32 @@ class Product
         ];
     }
 
+    public static function formatPrice(?float $amount, string $currency = 'INR'): string
+    {
+        if ($amount === null || $amount <= 0) {
+            return '';
+        }
+        $currency = strtoupper($currency);
+        switch ($currency) {
+            case 'USD':
+                return '$' . number_format($amount, 2);
+            case 'GBP':
+                return '£' . number_format($amount, 2);
+            case 'INR':
+            default:
+                return '₹' . (floor($amount) == $amount ? number_format($amount, 0) : number_format($amount, 2));
+        }
+    }
+
+    public static function getCurrencySymbol(string $currency = 'INR'): string
+    {
+        return match (strtoupper($currency)) {
+            'USD' => '$',
+            'GBP' => '£',
+            default => '₹'
+        };
+    }
+
     private static function getDefaultProducts(): array
     {
         return [
@@ -330,6 +450,10 @@ class Product
                 'description' => 'Classic hand-woven natural coir mat made from high quality 100% natural coconut fibers.',
                 'price' => 250.00,
                 'offer_price' => 199.00,
+                'price_usd' => 4.50,
+                'offer_price_usd' => 3.50,
+                'price_gbp' => 3.50,
+                'offer_price_gbp' => 2.75,
                 'status' => 'active'
             ],
             [
@@ -341,6 +465,10 @@ class Product
                 'description' => 'Durable cut-pile tufted coir bristles designed for heavy scraping and soil absorption.',
                 'price' => 350.00,
                 'offer_price' => 299.00,
+                'price_usd' => 6.00,
+                'offer_price_usd' => 5.00,
+                'price_gbp' => 4.75,
+                'offer_price_gbp' => 3.95,
                 'status' => 'active'
             ],
             [
@@ -352,6 +480,10 @@ class Product
                 'description' => 'Heavy-duty steel or wood rod reinforced coir matting built for extreme foot traffic.',
                 'price' => 450.00,
                 'offer_price' => 399.00,
+                'price_usd' => 7.50,
+                'offer_price_usd' => 6.50,
+                'price_gbp' => 6.00,
+                'offer_price_gbp' => 5.20,
                 'status' => 'active'
             ],
             [
@@ -363,6 +495,10 @@ class Product
                 'description' => 'Intricately hand-braided natural coir rope mats featuring rich artisanal patterns.',
                 'price' => 300.00,
                 'offer_price' => null,
+                'price_usd' => 5.00,
+                'offer_price_usd' => null,
+                'price_gbp' => 4.00,
+                'offer_price_gbp' => null,
                 'status' => 'active'
             ],
             [
@@ -374,6 +510,10 @@ class Product
                 'description' => 'Non-slip PVC vinyl backing bonded with dense coir fibers for zero displacement.',
                 'price' => 280.00,
                 'offer_price' => 220.00,
+                'price_usd' => 4.80,
+                'offer_price_usd' => 3.80,
+                'price_gbp' => 3.80,
+                'offer_price_gbp' => 3.00,
                 'status' => 'active'
             ],
             [
@@ -385,6 +525,10 @@ class Product
                 'description' => 'Heavy molded rubber frame and base for outdoors weather resistance.',
                 'price' => 320.00,
                 'offer_price' => 260.00,
+                'price_usd' => 5.50,
+                'offer_price_usd' => 4.50,
+                'price_gbp' => 4.40,
+                'offer_price_gbp' => 3.60,
                 'status' => 'active'
             ],
             [
@@ -396,6 +540,10 @@ class Product
                 'description' => 'Eco-friendly natural latex spray backing for flexible anti-skid protection.',
                 'price' => 290.00,
                 'offer_price' => null,
+                'price_usd' => 5.00,
+                'offer_price_usd' => null,
+                'price_gbp' => 4.00,
+                'offer_price_gbp' => null,
                 'status' => 'active'
             ],
             [
@@ -407,6 +555,10 @@ class Product
                 'description' => 'Custom stencilled and screen-printed mats featuring welcome motifs or corporate logos.',
                 'price' => 400.00,
                 'offer_price' => 349.00,
+                'price_usd' => 6.80,
+                'offer_price_usd' => 5.90,
+                'price_gbp' => 5.50,
+                'offer_price_gbp' => 4.75,
                 'status' => 'active'
             ],
             [
@@ -418,6 +570,10 @@ class Product
                 'description' => 'Sun-bleached blonde coir yarn or AZO-free dyed rich color coir mats.',
                 'price' => 270.00,
                 'offer_price' => 219.00,
+                'price_usd' => 4.60,
+                'offer_price_usd' => 3.75,
+                'price_gbp' => 3.70,
+                'offer_price_gbp' => 3.00,
                 'status' => 'active'
             ],
             [
@@ -429,6 +585,10 @@ class Product
                 'description' => 'High-end coir runner mats and floor carpets for hallways and eco-interiors.',
                 'price' => 850.00,
                 'offer_price' => 699.00,
+                'price_usd' => 14.50,
+                'offer_price_usd' => 11.90,
+                'price_gbp' => 11.50,
+                'offer_price_gbp' => 9.50,
                 'status' => 'active'
             ],
             [
@@ -440,6 +600,10 @@ class Product
                 'description' => 'Thick braided coir rope woven into timeless knot designs for luxury entrances.',
                 'price' => 500.00,
                 'offer_price' => 420.00,
+                'price_usd' => 8.50,
+                'offer_price_usd' => 7.20,
+                'price_gbp' => 6.80,
+                'offer_price_gbp' => 5.75,
                 'status' => 'active'
             ],
             [
@@ -451,6 +615,10 @@ class Product
                 'description' => 'Master roll stock coir matting available for bulk commercial custom cutting.',
                 'price' => 1200.00,
                 'offer_price' => null,
+                'price_usd' => 20.00,
+                'offer_price_usd' => null,
+                'price_gbp' => 16.00,
+                'offer_price_gbp' => null,
                 'status' => 'active'
             ],
             [
@@ -462,6 +630,10 @@ class Product
                 'description' => 'Vibrant geometric, striped, and multi-color coir fiber combinations.',
                 'price' => 380.00,
                 'offer_price' => 319.00,
+                'price_usd' => 6.50,
+                'offer_price_usd' => 5.50,
+                'price_gbp' => 5.20,
+                'offer_price_gbp' => 4.40,
                 'status' => 'active'
             ]
         ];
